@@ -1,3 +1,17 @@
+Telerik.Web.UI.RadMonthYearPicker, Telerik.Web.UI, Version=2021.1.224.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4
+Telerik.Web.UI.RadDropDownList, Telerik.Web.UI, Version=2021.1.224.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4
+Telerik.Web.UI.RadClientDataSource, Telerik.Web.UI, Version=2021.1.224.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4
+Telerik.Web.UI.RadButton, Telerik.Web.UI, Version=2021.1.224.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4
+Telerik.Web.UI.RadSearchBox, Telerik.Web.UI, Version=2021.1.224.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4
+Telerik.Web.UI.RadImageTile, Telerik.Web.UI, Version=2021.1.224.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4
+Telerik.Web.UI.RadToolTipManager, Telerik.Web.UI, Version=2021.1.224.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4
+Telerik.Web.UI.RadDatePicker, Telerik.Web.UI, Version=2021.1.224.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4
+Telerik.Web.UI.GridHeaderContextMenu, Telerik.Web.UI, Version=2021.1.224.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4
+Telerik.Web.UI.GridFilterMenu, Telerik.Web.UI, Version=2021.1.224.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4
+Telerik.Web.UI.RadPane, Telerik.Web.UI, Version=2021.1.224.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4
+Telerik.Web.UI.RadSplitBar, Telerik.Web.UI, Version=2021.1.224.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4
+Telerik.Web.UI.RadSplitter, Telerik.Web.UI, Version=2021.1.224.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4
+Telerik.Web.UI.RadComboBox, Telerik.Web.UI, Version=2021.1.224.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4
 Telerik.Web.UI.RadCodeBlock, Telerik.Web.UI, Version=2021.1.224.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4
 Telerik.Web.UI.RadContextMenu, Telerik.Web.UI, Version=2021.1.224.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4
 Telerik.Web.UI.RadGrid, Telerik.Web.UI, Version=2021.1.224.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4

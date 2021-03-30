@@ -24,18 +24,18 @@
             display: none;
         }
 
-        .exportToExcel, .exportToWord {
+        .exportToExcel .rtbText:before, .exportToWord .rtbText:before {
             font-family: "Font Awesome 5 Free";
             font-weight: 900;
         }
 
-            .exportToExcel .rtbText:before {
-                content: "\f1c3 \0020";
-            }
+        .exportToExcel .rtbText:before {
+            content: "\f1c3 \0020";
+        }
 
-            .exportToWord .rtbText:before {
-                content: "\f1c2 \0020";
-            }
+        .exportToWord .rtbText:before {
+            content: "\f1c2 \0020";
+        }
 
         a[id$=RadMonthYearPicker1_NavigationPrevLink]:after {
             content: "\0020Prev";
@@ -43,6 +43,24 @@
 
         a[id$=RadMonthYearPicker1_NavigationNextLink]:before {
             content: "Next\0020";
+        }
+
+        .rtContent a {
+            color: whitesmoke
+        }
+
+        .rtbLI .rtbButton .rtbArrow .radIcon.radIconDown::before {
+            font-family: "WebComponentsIcons";
+            content: '\e005';
+        }
+
+        .rtbLI .rtbButton.clicked .rtbArrow .radIcon.radIconDown::before {
+            font-family: "WebComponentsIcons";
+            content: '\e006';
+        }
+
+        .rgGroupPanel {
+            background: lightgray !important;
         }
     </style>
 </head>
@@ -74,28 +92,53 @@
         </telerik:RadAjaxManager>
         <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" runat="server">
         </telerik:RadAjaxLoadingPanel>
-        <telerik:RadToolBar ID="RadToolBar1" runat="server" Style="font-weight: 700" OnButtonClick="RadToolBar1_ButtonClick">
+        <telerik:RadToolTipManager ID="RadToolTipManager1" runat="server" AutoTooltipify="true">
+        </telerik:RadToolTipManager>
+        <telerik:RadToolBar ID="RadToolBar1" runat="server" Style="font-weight: 700" OnButtonClick="RadToolBar1_ButtonClick" OnClientDropDownClosing="ClientDropDownClosing">
             <Items>
-                <telerik:RadToolBarDropDown ID="RadToolBarDropDown1" runat="server" Text="Select Year">
-                    <Buttons>
-                        <telerik:RadToolBarButton ID="RadToolBarButton1" runat="server" Text="Child Button 1" OnPreRender="RadToolBarButton1_PreRender">
-                            <ItemTemplate>
-                                <telerik:RadMonthYearPicker ID="RadMonthYearPicker1" runat="server" Culture="en-US" HiddenInputTitleAttibute="Visually hidden input created for functionality purposes." MinDate="2015-01-01" MonthCellsStyle-CssClass="monthCellClass" OnSelectedDateChanged="RadMonthYearPicker1_SelectedDateChanged" DateInput-DateFormat="yyyy" AutoPostBack="true" DateInput-OnClientDateChanged="dateChanged">
-                                </telerik:RadMonthYearPicker>
-                            </ItemTemplate>
-                        </telerik:RadToolBarButton>
-                    </Buttons>
 
-                </telerik:RadToolBarDropDown>
-
-                <telerik:RadToolBarDropDown ID="RadToolBarDropDown2" runat="server" Text="Export To">
+                <telerik:RadToolBarDropDown Text="Go To">
                     <Buttons>
-                        <telerik:RadToolBarButton ID="RadToolBarButton2" runat="server" CommandName="ExportToExcelCommandName" Text="Excel" CssClass="exportToExcel">
+                        <telerik:RadToolBarButton ID="PatientHistory" runat="server"
+                            CommandName="PatientHistoryCommandName"
+                            Text="Patient Billing History" ImageUrl="~/images/patient.png" ImagePosition="Left">
                         </telerik:RadToolBarButton>
-                        <telerik:RadToolBarButton ID="RadToolBarButton3" runat="server" CommandName="ExportToWordCommandName" Text="Word" CssClass="exportToWord">
+                        <telerik:RadToolBarButton ID="CompanyBills" runat="server" CommandName="CompanyBillsCommandName" ImageUrl="~/images/calendar.png" ImagePosition="Left" Text="Monthly Bills" Visible="false">
+                        </telerik:RadToolBarButton>
+                        <telerik:RadToolBarButton ID="BillingHis" runat="server" CommandName="BillingHistoryCommandName" ImageUrl="~/images/enterprise1.png" ImagePosition="Left" Text="Company Billing History">
                         </telerik:RadToolBarButton>
                     </Buttons>
                 </telerik:RadToolBarDropDown>
+
+                <telerik:RadToolBarButton IsSeparator="true"></telerik:RadToolBarButton>
+
+                <telerik:RadToolBarDropDown ID="RadToolBarDropDown2" runat="server" Text="Export">
+                    <Buttons>
+                        <telerik:RadToolBarButton ID="i0" runat="server" CommandName="ExportToExcelCommandName" ImageUrl="~/images/excel.png" Text="Excel">
+                        </telerik:RadToolBarButton>
+                        <telerik:RadToolBarButton ID="i1" runat="server" CommandName="ExportToWordCommandName" ImageUrl="~/images/word.png" Text="Word">
+                        </telerik:RadToolBarButton>
+                    </Buttons>
+                </telerik:RadToolBarDropDown>
+
+                <telerik:RadToolBarButton IsSeparator="true"></telerik:RadToolBarButton>
+
+                <telerik:RadToolBarButton>
+                    <ItemTemplate>
+                        <span style="margin-right: 15px"></span>
+                    </ItemTemplate>
+                </telerik:RadToolBarButton>
+                <telerik:RadToolBarButton ID="RadToolBarButton1" runat="server" Text="Child Button 1" OnPreRender="RadToolBarButton1_PreRender">
+                    <ItemTemplate>
+                        <asp:Label runat="server" Text="Select year: "></asp:Label>
+                        <telerik:RadMonthYearPicker ID="RadMonthYearPicker1" runat="server" Culture="en-US" HiddenInputTitleAttibute="Visually hidden input created for functionality purposes." MinDate="2015-01-01" MonthCellsStyle-CssClass="monthCellClass" OnSelectedDateChanged="RadMonthYearPicker1_SelectedDateChanged" DateInput-DateFormat="yyyy" AutoPostBack="true" DateInput-OnClientDateChanged="dateChanged" DatePopupButton-ToolTip="" MonthYearNavigationSettings-NavigationNextToolTip="" MonthYearNavigationSettings-NavigationPrevToolTip="">
+                        </telerik:RadMonthYearPicker>
+                    </ItemTemplate>
+                </telerik:RadToolBarButton>
+
+
+
+
 
             </Items>
 
@@ -106,16 +149,16 @@
                 <div>
                     <telerik:RadGrid ID="RadGrid1" runat="server" AllowSorting="True" AutoGenerateColumns="false" AllowFilteringByColumn="true" RenderMode="Lightweight" ShowGroupPanel="True" ShowStatusBar="true" OnGridExporting="RadGrid1_GridExporting" OnHTMLExporting="RadGrid1_HTMLExporting" OnExportCellFormatting="RadGrid1_ExportCellFormatting" OnFilterCheckListItemsRequested="RadGrid1_FilterCheckListItemsRequested" OnPreRender="RadGrid1_PreRender"
                         AllowPaging="True" GridLines="Both" ShowFooter="True" AllowMultiRowSelection="False" FilterType="Combined"
-                        PageSize="10" OnNeedDataSource="RadGrid1_NeedDataSource" MasterTableView-Caption="<h3>Monthly Bills for </h3>" Font-Size="Small" EnableHeaderContextMenu="false" EnableHeaderContextFilterMenu="false" PagerStyle-Mode="NextPrevAndNumeric" PagerStyle-PageSizeControlType="RadComboBox" GroupingSettings-CaseSensitive="False">
-                        <ClientSettings Resizing-AllowColumnResize="true" AllowDragToGroup="true" Selecting-AllowRowSelect="true">
+                        PageSize="10" OnNeedDataSource="RadGrid1_NeedDataSource" MasterTableView-Caption="<h3>Monthly Bills for </h3>" Font-Size="Small" EnableHeaderContextMenu="false" EnableHeaderContextFilterMenu="false" PagerStyle-Mode="NextPrevAndNumeric" PagerStyle-PageSizeControlType="RadComboBox" GroupingSettings-CaseSensitive="False" FooterStyle-Font-Bold="true" MasterTableView-EnableHeaderContextMenu="true" OnItemDataBound="RadGrid1_ItemDataBound" ClientSettings-AllowDragToGroup="false">
+                        <ClientSettings Resizing-AllowColumnResize="true" AllowDragToGroup="false" Selecting-AllowRowSelect="true">
                             <Scrolling AllowScroll="True" UseStaticHeaders="True" SaveScrollPosition="true" FrozenColumnsCount="1"></Scrolling>
                             <Selecting AllowRowSelect="True"></Selecting>
                             <ClientEvents OnFilterMenuShowing="filterMenuShowing" />
                             <ClientEvents OnRowContextMenu="rowContextMenu" />
                             <Resizing AllowColumnResize="True"></Resizing>
                         </ClientSettings>
-                        <MasterTableView Width="100%" AllowMultiColumnSorting="true" TableLayout="Fixed" CommandItemDisplay="Top" Caption="Monthly Bills">
-                            <CommandItemSettings ShowExportToWordButton="true" ShowExportToCsvButton="false" ShowAddNewRecordButton="false" ShowRefreshButton="false" ShowExportToExcelButton="True" ShowExportToPdfButton="false" ShowPrintButton="false" PrintGridText="Print" />
+                        <MasterTableView Width="100%" AllowMultiColumnSorting="true" TableLayout="Fixed" CommandItemDisplay="None" Caption="Monthly Bills">
+                            <%--<CommandItemSettings ShowExportToWordButton="true" ShowExportToCsvButton="false" ShowAddNewRecordButton="false" ShowRefreshButton="false" ShowExportToExcelButton="True" ShowExportToPdfButton="false" ShowPrintButton="false" PrintGridText="Print" />--%>
 
                             <Columns>
                                 <telerik:GridBoundColumn DataField="Company" HeaderText="Company" HeaderStyle-Width="180px" FilterControlWidth="120px"
@@ -189,6 +232,10 @@
                             $(function () {
                                 //grid = $telerik.findControl(document, "RadGrid1");
                                 menu = $telerik.findControl(document, "RadMenu1");
+                                $telerik.$("#RadToolBar1 .rtbLI .rtbButton")
+                                    .on("click", function (e) {
+                                        $(e.currentTarget).toggleClass("clicked");
+                                    });
                             });
 
                             function filterMenuShowing(sender, eventArgs) {
@@ -260,6 +307,11 @@
                                     evt.stopPropagation();
                                     evt.preventDefault();
                                 }
+                            }
+
+                            function ClientDropDownClosing(sender, args) {
+                                var dropDownElement = $(args.get_item()._element)
+                                dropDownElement.find(".rtbButton").removeClass("clicked");
                             }
                         </script>
                     </telerik:RadCodeBlock>

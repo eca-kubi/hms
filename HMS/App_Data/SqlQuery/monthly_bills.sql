@@ -4,7 +4,7 @@
 FROM
     (
         SELECT
-            Company,
+            LTRIM(RTRIM(UPPER(Company))) Company,
             [ss12].[C1] AS [C1],
             [ss12].[C2] AS [C2],
             [ss12].[C3] AS [C3],

@@ -56,30 +56,32 @@ public partial class Monthly_Bills : System.Web.UI.Page
         String connectionString = ConfigurationManager.ConnectionStrings["HMDB"].ConnectionString;
         String query = SQLHelper.GetQueryString("monthly_bills.sql");
         SqlConnection connection = new SqlConnection(connectionString);
-        SqlDataAdapter adapter = new SqlDataAdapter();
-        adapter.SelectCommand = new SqlCommand(query, connection);
-
-        adapter.SelectCommand.Parameters.AddWithValue("@year0", Year);
-
-        for (int i = 1; i <= 12; i++)
+        using (SqlDataAdapter adapter = new SqlDataAdapter())
         {
-            adapter.SelectCommand.Parameters.AddWithValue("@year" + i, Year);
-            adapter.SelectCommand.Parameters.AddWithValue("@month" + i, i);
-        }
+            adapter.SelectCommand = new SqlCommand(query, connection);
 
-        DataTable myDataTable = new DataTable();
+            adapter.SelectCommand.Parameters.AddWithValue("@year0", Year);
 
-        connection.Open();
-        try
-        {
-            adapter.Fill(myDataTable);
-        }
-        finally
-        {
-            connection.Close();
-        }
+            for (int i = 1; i <= 12; i++)
+            {
+                adapter.SelectCommand.Parameters.AddWithValue("@year" + i, Year);
+                adapter.SelectCommand.Parameters.AddWithValue("@month" + i, i);
+            }
 
-        RadGrid1.DataSource = myDataTable;
+            DataTable myDataTable = new DataTable();
+
+            connection.Open();
+            try
+            {
+                adapter.Fill(myDataTable);
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            RadGrid1.DataSource = myDataTable;
+        }
     }
 
     protected void RadGrid1_GridExporting(object sender, GridExportingArgs e)
@@ -89,7 +91,7 @@ public partial class Monthly_Bills : System.Web.UI.Page
         if (exportType == ExportType.ExcelXlsx)
         {
             XlsxFormatProvider xlsxProvider = new XlsxFormatProvider();
-            Workbook workBook = xlsxProvider.Import(Encoding.Default.GetBytes(e.ExportOutput));
+            Workbook workBook = xlsxProvider.Import(Encoding.Default.GetBytes(exportOutput));
             WorksheetPageSetup pageSetup = workBook.ActiveWorksheet.WorksheetPageSetup;
 
             pageSetup.PageOrientation = PageOrientation.Landscape;
@@ -114,6 +116,11 @@ public partial class Monthly_Bills : System.Web.UI.Page
             e.ExportOutput = e.ExportOutput.Replace("<body>", "<body><div class=WordSection1>");
             e.ExportOutput = e.ExportOutput.Replace("</body>", "</div></body>");
         }
+        else if (e.ExportType == ExportType.Excel)
+        {
+            string css = "<style> td { border:solid 0.1pt #000000;}</style>";
+            e.ExportOutput = e.ExportOutput.Replace("</head>", css + "</head>");
+        }
     }
 
     protected void RadGrid1_HTMLExporting(object sender, GridHTMLExportingEventArgs e)
@@ -131,47 +138,23 @@ public partial class Monthly_Bills : System.Web.UI.Page
         else
         {
             e.Styles.Append("<!-- @page WordSection1 { size: 297mm 210mm; margin:0.50in 1.0in 0.50in 1.0in;}" +
-            "div.WordSection1 {page:WordSection1;} -->");
+       "div.WordSection1 {page:WordSection1;} table{border-collapse:collapse; font-size:10pt} -->");
         }
     }
 
     protected void RadGrid1_ExportCellFormatting(object sender, ExportCellFormattingEventArgs e)
     {
-        e.Cell.Style["font-size"] = "9pt";
+        e.Cell.Style["font-size"] = "10pt";
     }
 
     protected void RadGrid1_FilterCheckListItemsRequested(object sender, GridFilterCheckListItemsRequestedEventArgs e)
     {
         string DataField = (e.Column as IGridDataColumn).GetActiveDataField();
-        e.ListBox.DataSource = GetCompanyDataTable(Year);
+        e.ListBox.DataSource = SQLHelper.GetCompanyDataTable(Year);
         e.ListBox.DataKeyField = DataField;
         e.ListBox.DataTextField = DataField;
         e.ListBox.DataValueField = DataField;
         e.ListBox.DataBind();
-    }
-
-    public DataTable GetCompanyDataTable(int year)
-    {
-        string query = SQLHelper.GetQueryString("distinct_companies.sql");
-        String connectionString = ConfigurationManager.ConnectionStrings["HMDB"].ConnectionString;
-        SqlConnection connection = new SqlConnection(connectionString);
-        SqlDataAdapter adapter = new SqlDataAdapter();
-        adapter.SelectCommand = new SqlCommand(query, connection);
-        adapter.SelectCommand.Parameters.AddWithValue("@year0", year);
-
-        DataTable myDataTable = new DataTable();
-
-        connection.Open();
-        try
-        {
-            adapter.Fill(myDataTable);
-        }
-        finally
-        {
-            connection.Close();
-        }
-
-        return myDataTable;
     }
 
     protected void RadToolBarButton1_PreRender(object sender, EventArgs e)
@@ -185,11 +168,24 @@ public partial class Monthly_Bills : System.Web.UI.Page
 
     protected void RadToolBar1_ButtonClick(object sender, RadToolBarEventArgs e)
     {
+        var urlAuthority = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority);
+
         if ((e.Item as RadToolBarButton).CommandName.ToString() == "ExportToExcelCommandName")
             RadGrid1.ExportToExcel();
 
         if ((e.Item as RadToolBarButton).CommandName.ToString() == "ExportToWordCommandName")
             RadGrid1.ExportToWord();
+
+        if ((e.Item as RadToolBarButton).CommandName.ToString() == "BillingHistoryCommandName")
+            RadAjaxManager1.Redirect(urlAuthority + "/BillingHistory.aspx");
+
+
+        if ((e.Item as RadToolBarButton).CommandName.ToString() == "PatientHistoryCommandName")
+            RadAjaxManager1.Redirect(urlAuthority + "/PatientMedHistory.aspx");
+
+
+        if ((e.Item as RadToolBarButton).CommandName.ToString() == "CompanyBillsCommandName")
+            RadAjaxManager1.Redirect(urlAuthority + "/Monthly-Bills.aspx");
     }
 
     protected void RadMonthYearPicker1_SelectedDateChanged(object sender, Telerik.Web.UI.Calendar.SelectedDateChangedEventArgs e)
@@ -214,8 +210,15 @@ public partial class Monthly_Bills : System.Web.UI.Page
 
                 if (item.ItemType == GridItemType.Footer)
                 {
-                    item.Font.Size = new System.Web.UI.WebControls.FontUnit("9pt");
-                    item.Cells[2].Font.Bold = true;
+                    item.Font.Size = new System.Web.UI.WebControls.FontUnit("10pt");
+                    for (int i = 1; i < item.Cells.Count; i++)
+                    {
+                        item.Cells[i].Font.Bold = true;
+                        if (RadGrid1.GroupingEnabled)
+                            item.Cells[i - 1].Text = item.Cells[i].Text;
+                    }
+                    if (RadGrid1.GroupingEnabled)
+                        item.Cells[item.Cells.Count - 1].Text = "";
                 }
             }
         }
@@ -230,6 +233,19 @@ public partial class Monthly_Bills : System.Web.UI.Page
             RadAjaxManager1.Redirect(urlAuthority + "/BillingHistory.aspx?targetCompany=" + targetCompany);
         }
 
+    }
+
+    protected void RadGrid1_ItemDataBound(object sender, GridItemEventArgs e)
+    {
+        if (e.Item.ItemType == GridItemType.Item || e.Item.ItemType == GridItemType.AlternatingItem)
+        {
+            var item = e.Item.DataItem as DataRowView;
+            var company = item.Row["Company"].ToString();
+            var urlAuthority = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)
+             + "/BillingHistory.aspx?targetCompany=" + company;
+            string lsTip = String.Format("Company: {0}<br><a href='{1}'>View Billing History</a>", company, urlAuthority);
+            e.Item.ToolTip = lsTip;//Its style will be style of the RadToolTipManager style.
+        }
     }
 }
 

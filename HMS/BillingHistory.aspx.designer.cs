@@ -58,6 +58,15 @@ public partial class BillingHistory
     protected global::Telerik.Web.UI.RadAjaxLoadingPanel RadAjaxLoadingPanel1;
 
     /// <summary>
+    /// RadToolTipManager1 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::Telerik.Web.UI.RadToolTipManager RadToolTipManager1;
+
+    /// <summary>
     /// RadToolBar1 control.
     /// </summary>
     /// <remarks>
@@ -67,31 +76,58 @@ public partial class BillingHistory
     protected global::Telerik.Web.UI.RadToolBar RadToolBar1;
 
     /// <summary>
-    /// RadToolBarDropDown1 control.
+    /// PatientHistory control.
     /// </summary>
     /// <remarks>
     /// Auto-generated field.
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
-    protected global::Telerik.Web.UI.RadToolBarDropDown RadToolBarDropDown1;
+    protected global::Telerik.Web.UI.RadToolBarButton PatientHistory;
 
     /// <summary>
-    /// RadToolBarButton1 control.
+    /// CompanyBills control.
     /// </summary>
     /// <remarks>
     /// Auto-generated field.
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
-    protected global::Telerik.Web.UI.RadToolBarButton RadToolBarButton1;
+    protected global::Telerik.Web.UI.RadToolBarButton CompanyBills;
 
     /// <summary>
-    /// RadToolBarDropDown2 control.
+    /// BillingHis control.
     /// </summary>
     /// <remarks>
     /// Auto-generated field.
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
-    protected global::Telerik.Web.UI.RadToolBarDropDown RadToolBarDropDown2;
+    protected global::Telerik.Web.UI.RadToolBarButton BillingHis;
+
+    /// <summary>
+    /// i2 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::Telerik.Web.UI.RadToolBarDropDown i2;
+
+    /// <summary>
+    /// i0 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::Telerik.Web.UI.RadToolBarButton i0;
+
+    /// <summary>
+    /// i1 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::Telerik.Web.UI.RadToolBarButton i1;
 
     /// <summary>
     /// RadToolBarButton2 control.
@@ -103,13 +139,13 @@ public partial class BillingHistory
     protected global::Telerik.Web.UI.RadToolBarButton RadToolBarButton2;
 
     /// <summary>
-    /// RadToolBarButton3 control.
+    /// PeriodSelector control.
     /// </summary>
     /// <remarks>
     /// Auto-generated field.
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
-    protected global::Telerik.Web.UI.RadToolBarButton RadToolBarButton3;
+    protected global::Telerik.Web.UI.RadToolBarButton PeriodSelector;
 
     /// <summary>
     /// RadGrid1 control.
@@ -164,6 +200,15 @@ public partial class BillingHistory
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::System.Web.UI.WebControls.HiddenField isGroupExpanded;
+
+    /// <summary>
+    /// hfRadSearchBox2 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.HiddenField hfRadSearchBox2;
 
     /// <summary>
     /// RadMenu1 control.
