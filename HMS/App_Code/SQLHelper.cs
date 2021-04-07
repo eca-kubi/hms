@@ -4,9 +4,11 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Web;
+using System.Web.UI.WebControls;
 
 public class SQLHelper
 {
+ 
     public static String GetQueryString(String sqlFile)
     {
         string path = HttpContext.Current.Server.MapPath("/App_Data/SQLQuery/" + sqlFile);
@@ -174,4 +176,11 @@ public class SQLHelper
             return myDataTable;
         }
     }
+
+    //public static DataTable GetLoggedInUser()
+    //{
+    //    String connectionString = ConfigurationManager.ConnectionStrings["HMDB"].ConnectionString;
+    //    String query = GetQueryString("");
+    //    SqlDataSource sqlDataSource = new SqlDataSource()
+    //}
 }

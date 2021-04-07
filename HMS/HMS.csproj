@@ -52,44 +52,54 @@
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Web.Mobile" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="Telerik.Web.Design">
-      <HintPath>..\lib\RCAJAX\2021.1.224.45\Telerik.Web.Design.dll</HintPath>
+    <Reference Include="Telerik.Web.Design, Version=2021.1.330.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\RCAJAX\2021.1.330.45.Trial\Telerik.Web.Design.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Telerik.Web.Spreadsheet">
-      <HintPath>..\lib\RCAJAX\2021.1.224.45\AdditionalLibraries\Bin45\Telerik.Web.Spreadsheet.dll</HintPath>
+    <Reference Include="Telerik.Web.Spreadsheet, Version=2021.1.330.40, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\RCAJAX\2021.1.330.45.Trial\AdditionalLibraries\Bin45\Telerik.Web.Spreadsheet.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Telerik.Web.UI">
-      <HintPath>..\lib\RCAJAX\2021.1.224.45\Telerik.Web.UI.dll</HintPath>
+    <Reference Include="Telerik.Web.UI, Version=2021.1.330.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\RCAJAX\2021.1.330.45.Trial\Telerik.Web.UI.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Telerik.Web.UI.Skins">
-      <HintPath>..\lib\RCAJAX\2021.1.224.45\Telerik.Web.UI.Skins.dll</HintPath>
+    <Reference Include="Telerik.Web.UI.Skins, Version=2021.1.330.45, Culture=neutral, PublicKeyToken=121fae78165ba3d4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\RCAJAX\2021.1.330.45.Trial\Telerik.Web.UI.Skins.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Telerik.Windows.Documents.Core">
-      <HintPath>..\lib\RCAJAX\2021.1.224.45\AdditionalLibraries\Bin45\Telerik.Windows.Documents.Core.dll</HintPath>
+    <Reference Include="Telerik.Windows.Documents.Core, Version=2021.1.322.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\RCAJAX\2021.1.330.45.Trial\AdditionalLibraries\Bin45\Telerik.Windows.Documents.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Telerik.Windows.Documents.Flow">
-      <HintPath>..\lib\RCAJAX\2021.1.224.45\AdditionalLibraries\Bin45\Telerik.Windows.Documents.Flow.dll</HintPath>
+    <Reference Include="Telerik.Windows.Documents.Flow, Version=2021.1.322.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\RCAJAX\2021.1.330.45.Trial\AdditionalLibraries\Bin45\Telerik.Windows.Documents.Flow.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Telerik.Windows.Documents.Spreadsheet">
-      <HintPath>..\lib\RCAJAX\2021.1.224.45\AdditionalLibraries\Bin45\Telerik.Windows.Documents.Spreadsheet.dll</HintPath>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet, Version=2021.1.322.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\RCAJAX\2021.1.330.45.Trial\AdditionalLibraries\Bin45\Telerik.Windows.Documents.Spreadsheet.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml">
-      <HintPath>..\lib\RCAJAX\2021.1.224.45\AdditionalLibraries\Bin45\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll</HintPath>
+    <Reference Include="Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml, Version=2021.1.322.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\RCAJAX\2021.1.330.45.Trial\AdditionalLibraries\Bin45\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Telerik.Windows.Zip">
-      <HintPath>..\lib\RCAJAX\2021.1.224.45\AdditionalLibraries\Bin45\Telerik.Windows.Zip.dll</HintPath>
+    <Reference Include="Telerik.Windows.Zip, Version=2021.1.322.40, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\RCAJAX\2021.1.330.45.Trial\AdditionalLibraries\Bin45\Telerik.Windows.Zip.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Code\ImageConverter.cs" />
     <Compile Include="App_Code\SQLHelper.cs" />
     <Compile Include="BillingHistory.aspx.cs">
       <DependentUpon>BillingHistory.aspx</DependentUpon>
@@ -119,11 +129,16 @@
     <Compile Include="PatientMedHistory.aspx.designer.cs">
       <DependentUpon>PatientMedHistory.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Patients.aspx.cs">
+      <DependentUpon>Patients.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Patients.aspx.designer.cs">
+      <DependentUpon>Patients.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\images\image_p.png" />
-    <Content Include="App_Data\images\right-arrow.png" />
     <Content Include="App_Data\RadCaptcha\0.wav" />
     <Content Include="App_Data\RadCaptcha\1.wav" />
     <Content Include="App_Data\RadCaptcha\2.wav" />
@@ -167,10 +182,20 @@
     <Content Include="App_Data\SqlQuery\distinct_patients_from_company.sql" />
     <Content Include="App_Data\SqlQuery\monthly_bills.sql" />
     <Content Include="App_Data\SqlQuery\patient_biodata.sql" />
+    <Content Include="App_Data\SqlQuery\select_age.sql" />
+    <Content Include="App_Data\XML\Gender.xml" />
     <Content Include="BillingHistory.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="images\calendar.png" />
+    <Content Include="images\close.png" />
+    <Content Include="images\delete.png" />
+    <Content Include="images\diskette.png" />
+    <Content Include="images\edit.png" />
     <Content Include="images\enterprise1.png" />
+    <Content Include="images\fldBgr.gif" />
+    <Content Include="images\floppy-disk.png" />
+    <Content Include="images\h3bgr.png" />
+    <Content Include="images\insert.png" />
     <Content Include="images\medical-report.png" />
     <Content Include="images\excel.png" />
     <Content Include="images\filter.png" />
@@ -180,6 +205,10 @@
     <Content Include="images\medical-report.svg" />
     <Content Include="images\patient.png" />
     <Content Include="images\default.png" />
+    <Content Include="images\plus.png" />
+    <Content Include="images\profileImg.png" />
+    <Content Include="images\refresh.png" />
+    <Content Include="images\updated.png" />
     <Content Include="images\word.png" />
     <Content Include="JSCode\CircularDoublyLinkedList.js" />
     <Content Include="JSCode\DoublyLinkedList.js" />
@@ -187,7 +216,7 @@
     <Content Include="PatientMedHistory.aspx" />
     <Content Include="App_Data\SqlQuery\patient_history.sql" />
     <Content Include="images\profile.png" />
-    <Content Include="images\profile_-2.jpg" />
+    <Content Include="images\profile2.jpg" />
     <Content Include="images\woman.jpg" />
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +229,7 @@
     <Content Include="App_Data\RadSpell\fr-FR.tdf" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Patients.aspx" />
     <Content Include="web.config" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
@@ -243,7 +273,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
+      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
