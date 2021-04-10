@@ -112,6 +112,33 @@ public partial class Patients
     protected global::System.Web.UI.WebControls.SqlDataSource CompanyDataSource;
 
     /// <summary>
+    /// AllPatientsDataSource control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.SqlDataSource AllPatientsDataSource;
+
+    /// <summary>
+    /// GridFiltered control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.HiddenField GridFiltered;
+
+    /// <summary>
+    /// SBInputValue control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::System.Web.UI.WebControls.HiddenField SBInputValue;
+
+    /// <summary>
     /// RadCodeBlock1 control.
     /// </summary>
     /// <remarks>

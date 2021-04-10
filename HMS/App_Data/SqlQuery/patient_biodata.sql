@@ -1,8 +1,1 @@
-﻿SELECT LTRIM(RTRIM(dbo.fnToProperCase(FullName))) as FullName,
-BiodataID,
-Photo,
-PatientID,
-Company,
-Gender
-FROM PatientBiodatas 
-WHERE BiodataID = @biodata_id;
+﻿SELECT BiodataID, PatientID, Trim(dbo.fnToProperCase(FullName)) AS FullName, OtherNames, Surname, (0+ FORMAT(GETDATE(),'yyyyMMdd') - FORMAT(BirthDate,'yyyyMMdd') ) /10000 Age, BirthDate, Gender, Photo, PhoneOne, TRIM(UPPER(Company)) Company FROM PatientBiodatas WHERE (FullName NOT LIKE  '%[[]new]%') AND (FullName <> '') AND BiodataID = @biodata_id

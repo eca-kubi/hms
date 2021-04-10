@@ -15,6 +15,7 @@ using System.Data.SqlClient;
 using System.Web.UI.WebControls;
 using System.Web;
 using System.Collections.Generic;
+using HelpersLibrary;
 
 public partial class BillingHistory : System.Web.UI.Page
 {
@@ -297,9 +298,10 @@ public partial class BillingHistory : System.Web.UI.Page
             e.Item.ToolTip = lsTip;//Its style will be style of the RadToolTipManager style.
         }
 
-        GridCommandItem cmdItem = e.Item as GridCommandItem;
         if (e.Item.ItemType == GridItemType.CommandItem)
         {
+            GridCommandItem cmdItem = e.Item as GridCommandItem;
+
             RadSearchBox search = cmdItem.FindControl("RadSearchBox2") as RadSearchBox;
             search.Search += RadSearchBox2_Search;
             search.DataSource = null;

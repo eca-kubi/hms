@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
-using System.Data;
-using System.Configuration;
-using System.Web.Security;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
 using Telerik.Web.UI;
-
+using System.Collections.Generic;
+using HelpersLibrary;
 public partial class Patients : System.Web.UI.Page
 {
     private string gridMessage = null;
@@ -17,6 +11,23 @@ public partial class Patients : System.Web.UI.Page
     Int64 totalBytes;
     byte[] photoData = null;
 
+    public bool IsGridFiltered
+    {
+        get
+        {
+            if (Session["IsGridFiltered"] == null)
+            {
+                Session["IsGridFiltered"] = false;
+            }
+            return Convert.ToBoolean(Session["IsGridFiltered"].ToString());
+        }
+
+        set
+        {
+            Session["IsGridFiltered"] = value;
+        }
+    }
+   
     public bool? IsRadAsyncValid
     {
         get
@@ -41,8 +52,27 @@ public partial class Patients : System.Web.UI.Page
         IsRadAsyncValid = null;
 
         CompanyDataSource.SelectCommand = SQLHelper.GetQueryString("distinct_companies.sql");
+        AllPatientsDataSource.SelectCommand = SQLHelper.GetQueryString("all_patients_biodata.sql");
 
+        if (GridFiltered.Value == "1" && Page.IsPostBack)
+        {
+            DataSource1.SelectParameters.Clear();
+            DataSource1.SelectParameters.Add("FullName", SBInputValue.Value);
+            DataSource1.SelectCommand = SQLHelper.GetQueryString("patient_biodata_filter_by_fullname.sql");
+        } else
+        {
+            DataSource1.SelectCommand = SQLHelper.GetQueryString("all_patients_biodata.sql");
+        }
     }
+
+    //protected void Page_Prerender(object sender, EventArgs e)
+    //{
+    //    GridCommandItem cmdItem = (GridCommandItem)RadGrid1.MasterTableView.GetItems(GridItemType.CommandItem)[0];
+    //    RadToolBar RadToolBar1 = cmdItem.FindControl("RadGrid1ToolBar") as RadToolBar;
+    //    RadSearchBox sb =  RadToolBar1.FindItemByText("SearchBox").FindControl("RadSearchBox1") as RadSearchBox;
+
+    //}
+
     protected void RadGrid1_DataBound(object sender, EventArgs e)
     {
         if (!string.IsNullOrEmpty(gridMessage))
@@ -97,13 +127,14 @@ public partial class Patients : System.Web.UI.Page
         GridMessageLabel.Text = text;
     }
 
-    private void SetMessage(string message, bool isError=false)
+    private void SetMessage(string message, bool isError = false)
     {
         gridMessage = message;
         if (isError)
         {
             GridMessageLabel.ForeColor = System.Drawing.Color.Red;
-        } else
+        }
+        else
         {
             GridMessageLabel.ForeColor = System.Drawing.Color.DarkGreen;
         }
@@ -116,6 +147,18 @@ public partial class Patients : System.Web.UI.Page
         {
             GridBinaryImageColumnEditor editor = ((GridEditableItem)e.Item).EditManager.GetColumnEditor("PhotoColumn") as GridBinaryImageColumnEditor;
             //RadAjaxPanel1.ResponseScripts.Add(string.Format("window['PhotoId'] = '{0}';", editor.RadUploadControl.ClientID));
+        }
+
+        // Bind Patients searchbox (RadSearchBox1) to a datasource
+        if (e.Item.ItemType == GridItemType.CommandItem)
+        {
+            GridCommandItem cmdItem = e.Item as GridCommandItem;
+            RadToolBar radToolBar = cmdItem.FindControl("RadGrid1ToolBar") as RadToolBar;
+            RadSearchBox search = radToolBar.FindItemByText("SearchBox").FindControl("RadSearchBox1") as RadSearchBox;
+            //search.Search += RadSearchBox1_Search;
+            //search.DataSource = null;
+            search.DataSourceID = "AllPatientsDataSource";
+            search.DataBind();
         }
     }
 
@@ -221,7 +264,7 @@ public partial class Patients : System.Web.UI.Page
             file.InputStream.Read(fileData, 0, (int)file.InputStream.Length);
             photoData = fileData;
         }
-       
+
         int ret = DataSource1.Update();
         if (ret > 0)
         {
@@ -229,7 +272,8 @@ public partial class Patients : System.Web.UI.Page
             //Page.ClientScript.RegisterStartupScript(this.GetType(), "radalert", radalertscript);
             // RadWindowManager1.RadAlert("Successfully updated!", 330, 180, "", "");
             SetMessage("Record updated!");
-        } else
+        }
+        else
         {
             SetMessage("Update failed", true);
         }
@@ -269,7 +313,8 @@ public partial class Patients : System.Web.UI.Page
         if (ret > 0)
         {
             SetMessage("Record deleted!");
-        } else
+        }
+        else
         {
             SetMessage("Failed to delete the record!", true);
         }
@@ -291,11 +336,36 @@ public partial class Patients : System.Web.UI.Page
 
     protected void RadSearchBox1_Search(object sender, SearchBoxEventArgs e)
     {
+        // Filter Grid datasource (DataSource1)
+        RadSearchBox searchBox = (RadSearchBox)sender;
+        string fullName = String.Empty;
+        if (!string.IsNullOrEmpty(e.Text))
+        {
+            fullName = e.Text;
+        }
+        else if (e.DataItem != null)
+        {
+            fullName = ((Dictionary<string, object>)e.DataItem)["FullName"].ToString();
+        }
+
+        if (!string.IsNullOrEmpty(fullName))
+        {
+            DataSource1.SelectParameters.Clear();
+            DataSource1.SelectParameters.Add("FullName", fullName);
+            DataSource1.SelectCommand = SQLHelper.GetQueryString("patient_biodata_filter_by_fullname.sql");
+            IsGridFiltered = true;
+        }
 
     }
 
     protected void RadSearchBox1_ButtonCommand(object sender, SearchBoxButtonEventArgs e)
     {
-
+        // Clear grid filter to select all patients
+        if (e.CommandName == "ClearFilter")
+        {
+            DataSource1.SelectParameters.Clear();
+            DataSource1.SelectCommand = SQLHelper.GetQueryString("all_patients_biodata.sql");
+            IsGridFiltered = false;
+        }
     }
 }

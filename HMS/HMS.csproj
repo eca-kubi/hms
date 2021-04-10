@@ -99,8 +99,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Code\ImageConverter.cs" />
-    <Compile Include="App_Code\SQLHelper.cs" />
     <Compile Include="BillingHistory.aspx.cs">
       <DependentUpon>BillingHistory.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -176,11 +174,13 @@
     <Content Include="App_Data\RadCaptcha\Y.wav" />
     <Content Include="App_Data\RadCaptcha\Z.wav" />
     <Content Include="App_Data\SqlQuery\all_patients.sql" />
+    <Content Include="App_Data\SqlQuery\all_patients_biodata.sql" />
     <Content Include="App_Data\SqlQuery\billing_history_per_company.sql" />
     <Content Include="App_Data\SqlQuery\distinct_companies.sql" />
     <Content Include="App_Data\SqlQuery\distinct_companies_by_year.sql" />
     <Content Include="App_Data\SqlQuery\distinct_patients_from_company.sql" />
     <Content Include="App_Data\SqlQuery\monthly_bills.sql" />
+    <Content Include="App_Data\SqlQuery\patient_biodata_filter_by_fullname.sql" />
     <Content Include="App_Data\SqlQuery\patient_biodata.sql" />
     <Content Include="App_Data\SqlQuery\select_age.sql" />
     <Content Include="App_Data\XML\Gender.xml" />
@@ -192,6 +192,7 @@
     <Content Include="images\diskette.png" />
     <Content Include="images\edit.png" />
     <Content Include="images\enterprise1.png" />
+    <Content Include="images\filter_l.png" />
     <Content Include="images\fldBgr.gif" />
     <Content Include="images\floppy-disk.png" />
     <Content Include="images\h3bgr.png" />
@@ -241,7 +242,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\HelpersLibrary\HelpersLibrary.csproj">
+      <Project>{05701ee9-fdb9-4cc7-beac-8837108bb58a}</Project>
+      <Name>HelpersLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Code\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -273,7 +282,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties UseAjaxifiedTemplates="True" UseJQuerySupport="True" />
+      <UserProperties UseJQuerySupport="True" UseAjaxifiedTemplates="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

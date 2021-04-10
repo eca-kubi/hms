@@ -423,7 +423,7 @@
                                 radGrid1 = $find("<%= RadGrid1.ClientID %>");
                                 hfRadSearchBox2 = $telerik.$("#<%= hfRadSearchBox2.ClientID %>");
                                 radSearchBox2 = $telerik.findControl(document, "RadSearchBox2");
-                                radSearchBox2.trackChanges();
+                                //radSearchBox2.trackChanges();
                             }
 
                             function radDropDownList1_ClientItemSelected(sender, args) {

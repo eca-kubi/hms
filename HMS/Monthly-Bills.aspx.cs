@@ -12,6 +12,7 @@ using Telerik.Windows.Documents.Spreadsheet.Model.Printing;
 using Telerik.Windows.Documents.Model;
 using System.IO;
 using System.Web;
+using HelpersLibrary;
 
 public partial class Monthly_Bills : System.Web.UI.Page
 {
