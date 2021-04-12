@@ -1,7 +1,6 @@
 ﻿using System;
 
 using System.Data;
-using System.Configuration;
 using Telerik.Web.UI;
 using System.Globalization;
 using System.Threading;
@@ -11,7 +10,6 @@ using Telerik.Windows.Documents.Spreadsheet.Model;
 using Telerik.Windows.Documents.Spreadsheet.Model.Printing;
 using Telerik.Windows.Documents.Model;
 using System.IO;
-using System.Data.SqlClient;
 using System.Web.UI.WebControls;
 using System.Web;
 using System.Collections.Generic;
@@ -35,7 +33,7 @@ public partial class BillingHistory : System.Web.UI.Page
             hfStartDate.Value = StartDate;
             hfEndDate.Value = EndDate;
             hfCompany.Value = Company;
-            var company = Request.QueryString?["targetCompany"];
+            var company = Request.QueryString?["tc"];
             if (company != null)
             {
                 Company = company;
@@ -189,6 +187,11 @@ public partial class BillingHistory : System.Web.UI.Page
         if ((e.Item as RadToolBarButton).CommandName.ToString() == "CompanyBillsCommandName")
             RadAjaxManager1.Redirect(urlAuthority + "/Monthly-Bills.aspx");
 
+        if ((e.Item as RadToolBarButton).CommandName.ToString() == "Patients")
+            RadAjaxManager1.Redirect(urlAuthority + "/Patients.aspx");
+
+        if ((e.Item as RadToolBarButton).CommandName.ToString() == "Companies")
+            RadAjaxManager1.Redirect(urlAuthority + "/Companies.aspx");
 
     }
 
@@ -293,8 +296,8 @@ public partial class BillingHistory : System.Web.UI.Page
             var biodataID = item.Row["BiodataID"].ToString();
             var fullName = item.Row["FullName"].ToString();
             var urlAuthority = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)
-             + "/PatientMedHistory.aspx?biodata_id=" + biodataID;
-            string lsTip = String.Format("Patient: {0}<br><a href='{1}'>View Medical History</a>", fullName, urlAuthority);
+             + "/PatientMedHistory.aspx?bdid=" + biodataID;
+            string lsTip = String.Format("Patient: {0}<br><a href='{1}'>View Billing History</a>", fullName, urlAuthority);
             e.Item.ToolTip = lsTip;//Its style will be style of the RadToolTipManager style.
         }
 

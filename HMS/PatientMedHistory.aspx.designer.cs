@@ -87,6 +87,24 @@ namespace HMS
         protected global::Telerik.Web.UI.RadToolBar RadToolBar1;
 
         /// <summary>
+        /// Patients control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadToolBarButton Patients;
+
+        /// <summary>
+        /// Companies control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadToolBarButton Companies;
+
+        /// <summary>
         /// PatientHistory control.
         /// </summary>
         /// <remarks>
@@ -96,15 +114,6 @@ namespace HMS
         protected global::Telerik.Web.UI.RadToolBarButton PatientHistory;
 
         /// <summary>
-        /// CompanyBills control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Telerik.Web.UI.RadToolBarButton CompanyBills;
-
-        /// <summary>
         /// BillingHistory control.
         /// </summary>
         /// <remarks>
@@ -112,6 +121,15 @@ namespace HMS
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Telerik.Web.UI.RadToolBarButton BillingHistory;
+
+        /// <summary>
+        /// CompanyBills control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Telerik.Web.UI.RadToolBarButton CompanyBills;
 
         /// <summary>
         /// RadToolBarDropDown2 control.

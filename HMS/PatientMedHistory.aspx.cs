@@ -1,5 +1,6 @@
 ﻿using HelpersLibrary;
 using System;
+using System.Configuration;
 using System.Data;
 using System.Globalization;
 using System.IO;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 using Telerik.Web.UI;
 using Telerik.Windows.Documents.Model;
 using Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.Xlsx;
@@ -26,7 +28,7 @@ namespace HMS
         {
             if (!Page.IsPostBack)
             {
-                var biodata_id = hfBiodataID.Value = Request.QueryString["biodata_id"] ?? "0";
+                var biodata_id = hfBiodataID.Value = Request.QueryString["bdid"] ?? "0";
                 try
                 {
                     BioDataID = Convert.ToInt32(biodata_id);
@@ -34,7 +36,7 @@ namespace HMS
                 catch (Exception)
                 {
                 }
-
+               
             }
             else
             {
@@ -60,6 +62,20 @@ namespace HMS
             CultureInfo currentCulture = new CultureInfo(Thread.CurrentThread.CurrentCulture.LCID);
             currentCulture.NumberFormat.CurrencySymbol = "\u20B5";
             Thread.CurrentThread.CurrentCulture = currentCulture;
+
+            if (BioDataID == 0)
+            {
+                // Select first patient as default after ascend sorting
+                string selectCmd = "SELECT TOP 1 dbo.fnToProperCase(TRIM(FullName)) FullName, BiodataID from PatientBiodatas WHERE   FullName NOT LIKE '%[[]new]%' AND FullName <> '' ORDER BY FullName ASC";
+                SqlDataSource sqDS = new SqlDataSource(ConfigurationManager.ConnectionStrings["HMDB"].ConnectionString, selectCmd);
+                DataView dv = sqDS.Select(DataSourceSelectArguments.Empty) as DataView;
+                if (dv.Table.Rows.Count > 0)
+                {
+                    BioDataID = (int)dv.Table.Rows[0]["BiodataID"];
+                }
+            }
+
+            hfBiodataID.Value = BioDataID.ToString();
 
             UpdateUIAjax();
         }
@@ -101,7 +117,12 @@ namespace HMS
 
             if ((e.Item as RadToolBarButton).CommandName.ToString() == "CompanyBillsCommandName")
                 RadAjaxManager1.Redirect(urlAuthority + "/Monthly-Bills.aspx");
+            
+            if ((e.Item as RadToolBarButton).CommandName.ToString() == "Patients")
+                RadAjaxManager1.Redirect(urlAuthority + "/Patients.aspx");
 
+            if ((e.Item as RadToolBarButton).CommandName.ToString() == "Companies")
+                RadAjaxManager1.Redirect(urlAuthority + "/Companies.aspx");
 
         }
 

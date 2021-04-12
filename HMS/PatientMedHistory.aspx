@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>Patient Billing History</title>
-        <link rel="shortcut icon" type="image/x-icon" href="images/patient.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="images/dollar.png" />
     <style>
         .hideUpdatePanel {
             display: none;
@@ -16,8 +16,6 @@
         }
 
         .rgCaption {
-        <link rel="shortcut icon" type="image/x-icon" href="images/patient.png" />
-        <link rel="shortcut icon" type="image/x-icon" href="images/patient.png" />
             display: none
         }
 
@@ -109,13 +107,17 @@
             <Items>
                 <telerik:RadToolBarDropDown Text="Go To">
                     <Buttons>
+                        <telerik:RadToolBarButton ID="Patients" runat="server" CommandName="Patients" ImageUrl="~/images/patient.png" ImagePosition="Left" Text="Patients">
+                        </telerik:RadToolBarButton>
+                        <telerik:RadToolBarButton ID="Companies" runat="server" CommandName="Companies" ImageUrl="~/images/office-building.png" ImagePosition="Left" Text="Companies" Visible="false">
+                        </telerik:RadToolBarButton>
                         <telerik:RadToolBarButton ID="PatientHistory" runat="server" Visible="false"
                             CommandName="PatientHistoryCommandName"
-                            Text="Patient Billing History" ImageUrl="~/images/patient.png" ImagePosition="Left">
+                            Text="Patient Billing History" ImageUrl="~/images/dollar_16.png" ImagePosition="Left">
+                        </telerik:RadToolBarButton>
+                        <telerik:RadToolBarButton ID="BillingHistory" runat="server" CommandName="BillingHistoryCommandName" ImageUrl="~/images/enterprise.png" ImagePosition="Left" Text="Company Billing History">
                         </telerik:RadToolBarButton>
                         <telerik:RadToolBarButton ID="CompanyBills" runat="server" CommandName="CompanyBillsCommandName" ImageUrl="~/images/calendar.png" ImagePosition="Left" Text="Monthly Bills">
-                        </telerik:RadToolBarButton>
-                        <telerik:RadToolBarButton ID="BillingHistory" runat="server" CommandName="BillingHistoryCommandName" ImageUrl="~/images/enterprise1.png" ImagePosition="Left" Text="Company Billing History">
                         </telerik:RadToolBarButton>
                     </Buttons>
                 </telerik:RadToolBarDropDown>
@@ -157,12 +159,6 @@
                         </telerik:RadSearchBox>
                     </ItemTemplate>
                 </telerik:RadToolBarButton>
-
-
-
-
-
-
             </Items>
         </telerik:RadToolBar>
         <div style="align-items: flex-end; display: flex; justify-content: space-between">
@@ -191,7 +187,7 @@
         <div class="scroller">
             <div class="gridWrapper">
                 <div>
-                    <telerik:RadGrid ID="RadGrid1" runat="server" AllowSorting="True" AutoGenerateColumns="False" AllowFilteringByColumn="True" RenderMode="Lightweight" ShowGroupPanel="True" ShowStatusBar="True" OnGridExporting="RadGrid1_GridExporting" OnHTMLExporting="RadGrid1_HTMLExporting" OnExportCellFormatting="RadGrid1_ExportCellFormatting" OnPreRender="RadGrid1_PreRender" OnItemDataBound="RadGrid1_ItemDataBound"
+                    <telerik:RadGrid ID="RadGrid1" runat="server" AllowSorting="True" AutoGenerateColumns="False" AllowFilteringByColumn="True" RenderMode="Lightweight" ShowGroupPanel="True" ShowStatusBar="True" OnGridExporting="RadGrid1_GridExporting" OnHTMLExporting="RadGrid1_HTMLExporting" OnExportCellFormatting="RadGrid1_ExportCellFormatting" OnPreRender="RadGrid1_PreRender" Height="500" OnItemDataBound="RadGrid1_ItemDataBound"
                         AllowPaging="True" GridLines="Both" ShowFooter="True" FilterType="Combined"
                         PageSize="50" OnNeedDataSource="RadGrid1_NeedDataSource" MasterTableView-Caption="Medical History" Font-Size="Small" PagerStyle-Mode="NextPrevAndNumeric" PagerStyle-Position="Top" PagerStyle-PageSizeControlType="RadComboBox" GroupingSettings-CaseSensitive="False" MasterTableView-ShowGroupFooter="true">
                         <ClientSettings Resizing-AllowColumnResize="true" AllowDragToGroup="false" AllowExpandCollapse="true" Selecting-AllowRowSelect="true">
@@ -245,7 +241,7 @@
                         <GroupingSettings ShowUnGroupButton="true" CaseSensitive="False"></GroupingSettings>
                         <HeaderContextMenu RenderMode="Lightweight"></HeaderContextMenu>
                     </telerik:RadGrid>
-                    <asp:HiddenField ID="hfBiodataID" ClientIDMode="Static" runat="server" />
+                    <asp:HiddenField ID="hfBiodataID" Value='<%# BioDataID.ToString() %>' ClientIDMode="Static" runat="server" />
 
                     <telerik:RadCodeBlock ID="RadCodeBlock1" runat="server">
                         <script type="text/javascript">

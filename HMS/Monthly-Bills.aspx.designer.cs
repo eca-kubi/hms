@@ -76,15 +76,6 @@ public partial class Monthly_Bills
     protected global::Telerik.Web.UI.RadToolBar RadToolBar1;
 
     /// <summary>
-    /// RadToolBarButton1 control.
-    /// </summary>
-    /// <remarks>
-    /// Auto-generated field.
-    /// To modify move field declaration from designer file to code-behind file.
-    /// </remarks>
-    protected global::Telerik.Web.UI.RadToolBarButton RadToolBarButton1;
-
-    /// <summary>
     /// RadToolBarDropDown1 control.
     /// </summary>
     /// <remarks>
@@ -92,6 +83,24 @@ public partial class Monthly_Bills
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::Telerik.Web.UI.RadToolBarDropDown RadToolBarDropDown1;
+
+    /// <summary>
+    /// Patients control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::Telerik.Web.UI.RadToolBarButton Patients;
+
+    /// <summary>
+    /// Companies control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::Telerik.Web.UI.RadToolBarButton Companies;
 
     /// <summary>
     /// PatientHistory control.
@@ -103,6 +112,15 @@ public partial class Monthly_Bills
     protected global::Telerik.Web.UI.RadToolBarButton PatientHistory;
 
     /// <summary>
+    /// BillingHistory control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::Telerik.Web.UI.RadToolBarButton BillingHistory;
+
+    /// <summary>
     /// CompanyBills control.
     /// </summary>
     /// <remarks>
@@ -110,15 +128,6 @@ public partial class Monthly_Bills
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::Telerik.Web.UI.RadToolBarButton CompanyBills;
-
-    /// <summary>
-    /// BillingHis control.
-    /// </summary>
-    /// <remarks>
-    /// Auto-generated field.
-    /// To modify move field declaration from designer file to code-behind file.
-    /// </remarks>
-    protected global::Telerik.Web.UI.RadToolBarButton BillingHis;
 
     /// <summary>
     /// RadToolBarDropDown2 control.
@@ -146,6 +155,15 @@ public partial class Monthly_Bills
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::Telerik.Web.UI.RadToolBarButton i1;
+
+    /// <summary>
+    /// RadToolBarButton1 control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::Telerik.Web.UI.RadToolBarButton RadToolBarButton1;
 
     /// <summary>
     /// RadGrid1 control.

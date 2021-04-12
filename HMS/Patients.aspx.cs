@@ -4,6 +4,14 @@ using System.Web.UI.WebControls;
 using Telerik.Web.UI;
 using System.Collections.Generic;
 using HelpersLibrary;
+using System.Web;
+using Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.Xlsx;
+using System.Text;
+using Telerik.Windows.Documents.Spreadsheet.Model;
+using Telerik.Windows.Documents.Spreadsheet.Model.Printing;
+using Telerik.Windows.Documents.Model;
+using System.IO;
+
 public partial class Patients : System.Web.UI.Page
 {
     private string gridMessage = null;
@@ -51,18 +59,13 @@ public partial class Patients : System.Web.UI.Page
 
         IsRadAsyncValid = null;
 
+        GridMessageLabel.Text = "";
+
         CompanyDataSource.SelectCommand = SQLHelper.GetQueryString("distinct_companies.sql");
+        
         AllPatientsDataSource.SelectCommand = SQLHelper.GetQueryString("all_patients_biodata.sql");
 
-        if (GridFiltered.Value == "1" && Page.IsPostBack)
-        {
-            DataSource1.SelectParameters.Clear();
-            DataSource1.SelectParameters.Add("FullName", SBInputValue.Value);
-            DataSource1.SelectCommand = SQLHelper.GetQueryString("patient_biodata_filter_by_fullname.sql");
-        } else
-        {
-            DataSource1.SelectCommand = SQLHelper.GetQueryString("all_patients_biodata.sql");
-        }
+        
     }
 
     //protected void Page_Prerender(object sender, EventArgs e)
@@ -104,7 +107,8 @@ public partial class Patients : System.Web.UI.Page
         }
         else
         {
-            SetMessage("New product is inserted!");
+            SetMessage("New patient record added!");
+            RadWindowManager1.RadAlert("New patient record added!", 330, 180, "", "");
         }
     }
 
@@ -221,7 +225,8 @@ public partial class Patients : System.Web.UI.Page
         int ret = DataSource1.Insert();
         if (ret > 0)
         {
-            SetMessage("New record added!");
+            //SetMessage("New record added!");
+            RadWindowManager1.RadAlert("New patient record added!", 330, 180, "", "");
         }
         else
         {
@@ -268,9 +273,9 @@ public partial class Patients : System.Web.UI.Page
         int ret = DataSource1.Update();
         if (ret > 0)
         {
-            //string radalertscript = "<script language='javascript'> window.onload = function(){radalert('Item updated successfully', 330, 210);}</script>";
-            //Page.ClientScript.RegisterStartupScript(this.GetType(), "radalert", radalertscript);
-            // RadWindowManager1.RadAlert("Successfully updated!", 330, 180, "", "");
+            string radalertscript = "<script language='javascript'> window.onload = function(){radalert('Item updated successfully', 330, 210);}</script>";
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "radalert", radalertscript);
+            //RadWindowManager1.RadAlert("Successfully updated!", 330, 180, "", "");
             SetMessage("Record updated!");
         }
         else
@@ -301,6 +306,38 @@ public partial class Patients : System.Web.UI.Page
         if (e.CommandName == RadGrid.EditCommandName)
         {
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "SetEditMode", "isEditMode = true;", true);
+        }
+
+        var urlAuthority = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority);
+
+        if (e.CommandName == "ExportToExcelCommandName")
+            RadGrid1.ExportToExcel();
+
+        if (e.CommandName == "ExportToWordCommandName")
+            RadGrid1.ExportToWord();
+
+        if (e.CommandName.ToString() == "Patients")
+            RadAjaxManager1.Redirect(urlAuthority + "/Patients.aspx");
+
+        if (e.CommandName.ToString() == "Companies")
+            RadAjaxManager1.Redirect(urlAuthority + "/Companies.aspx");
+
+        if (e.CommandName == "BillingHistoryCommandName")
+            RadAjaxManager1.Redirect(urlAuthority + "/BillingHistory.aspx");
+
+
+        if (e.CommandName == "PatientHistoryCommandName")
+            RadAjaxManager1.Redirect(urlAuthority + "/PatientMedHistory.aspx");
+
+
+        if (e.CommandName == "CompanyBillsCommandName")
+            RadAjaxManager1.Redirect(urlAuthority + "/Monthly-Bills.aspx");
+
+        if (e.CommandName == "BillingHistory")
+        {
+            GridDataItem item = e.Item as GridDataItem;
+            var biodataID = item.OwnerTableView.DataKeyValues[item.ItemIndex]["BiodataID"].ToString();
+            RadAjaxManager1.Redirect(urlAuthority + string.Format("/PatientMedHistory.aspx?bdid={0}", biodataID));
         }
     }
 
@@ -350,9 +387,10 @@ public partial class Patients : System.Web.UI.Page
 
         if (!string.IsNullOrEmpty(fullName))
         {
-            DataSource1.SelectParameters.Clear();
+            /*DataSource1.SelectParameters.Clear();
             DataSource1.SelectParameters.Add("FullName", fullName);
-            DataSource1.SelectCommand = SQLHelper.GetQueryString("patient_biodata_filter_by_fullname.sql");
+            DataSource1.SelectCommand = SQLHelper.GetQueryString("patient_biodata_filter_by_fullname.sql");*/
+            RadGrid1.Rebind();
             IsGridFiltered = true;
         }
 
@@ -363,9 +401,90 @@ public partial class Patients : System.Web.UI.Page
         // Clear grid filter to select all patients
         if (e.CommandName == "ClearFilter")
         {
-            DataSource1.SelectParameters.Clear();
-            DataSource1.SelectCommand = SQLHelper.GetQueryString("all_patients_biodata.sql");
+            /*DataSource1.SelectParameters.Clear();
+            DataSource1.SelectCommand = SQLHelper.GetQueryString("all_patients_biodata.sql");*/
+            RadGrid1.Rebind();
             IsGridFiltered = false;
         }
+    }
+
+    protected void RadGrid1_NeedDataSource(object sender, GridNeedDataSourceEventArgs e)
+    {
+        if (GridFiltered.Value == "1")
+        {
+            string fullName = SBInputValue.Value;
+            //DataSource1.SelectParameters.Clear();
+            //DataSource1.SelectParameters.Add("FullName", SBInputValue.Value);
+            //DataSource1.SelectCommand = SQLHelper.GetQueryString("patient_biodata_filter_by_fullname.sql");
+            RadGrid1.DataSource = SQLHelper.GetPatientBiodataByFullName(fullName);
+        }
+        else
+        {
+            //DataSource1.SelectCommand = SQLHelper.GetQueryString("all_patients_biodata.sql");
+            RadGrid1.DataSource = SQLHelper.GetAllPatients();
+        }
+    }
+
+    protected void RadGrid1_HTMLExporting(object sender, GridHTMLExportingEventArgs e)
+    {
+        if (Response.ContentType.Contains("excel"))
+        {
+            e.Styles.Append("<!--table @page { mso-page-orientation:landscape;} -->");
+
+            e.XmlOptions = "<xml><x:ExcelWorkbook>" +
+                            "<x:ExcelWorksheets><x:ExcelWorksheet><x:WorksheetOptions>" +
+                            "<x:Print><x:ValidPrinterInfo/></x:Print>" +
+                            "</x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets>" +
+                            "</x:ExcelWorkbook></xml>";
+        }
+        else
+        {
+            e.Styles.Append("<!-- @page WordSection1 { size: 297mm 210mm; margin:0.50in 1.0in 0.50in 1.0in;}" +
+       "div.WordSection1 {page:WordSection1;} table{border-collapse:collapse; font-size:10pt} -->");
+        }
+    }
+
+    protected void RadGrid1_GridExporting(object sender, GridExportingArgs e)
+    {
+        string exportOutput = e.ExportOutput;
+        ExportType exportType = e.ExportType;
+        if (exportType == ExportType.ExcelXlsx)
+        {
+            XlsxFormatProvider xlsxProvider = new XlsxFormatProvider();
+            Workbook workBook = xlsxProvider.Import(Encoding.Default.GetBytes(exportOutput));
+            WorksheetPageSetup pageSetup = workBook.ActiveWorksheet.WorksheetPageSetup;
+
+            pageSetup.PageOrientation = PageOrientation.Landscape;
+
+            byte[] data = null;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                xlsxProvider.Export(workBook, ms);
+                data = ms.ToArray(); // get the byte data of the document
+            }
+            // send the data in the response for download
+            Response.Clear();
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.Headers.Remove("Content-Disposition");
+            Response.AppendHeader("Content-Disposition", "attachment; filename=" + RadGrid1.ExportSettings.FileName + ".xlsx");
+            Response.BinaryWrite(data);
+            Response.End();
+
+        }
+        else if (e.ExportType == ExportType.Word)
+        {
+            e.ExportOutput = e.ExportOutput.Replace("<body>", "<body><div class=WordSection1>");
+            e.ExportOutput = e.ExportOutput.Replace("</body>", "</div></body>");
+        }
+        else if (e.ExportType == ExportType.Excel)
+        {
+            string css = "<style> td { border:solid 0.1pt #000000;}</style>";
+            e.ExportOutput = e.ExportOutput.Replace("</head>", css + "</head>");
+        }
+    }
+
+    protected void RadGrid1_ExportCellFormatting(object sender, ExportCellFormattingEventArgs e)
+    {
+        e.Cell.Style["font-size"] = "10pt";
     }
 }

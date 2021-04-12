@@ -1,11 +1,13 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Patients.aspx.cs" Inherits="Patients" %>
-<%@ Import namespace="HelpersLibrary" %>
+
+<%@ Import Namespace="HelpersLibrary" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <title>Patients</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/patient.png" />
     <style type="text/css">
         .MyImageButton {
             cursor: pointer;
@@ -28,8 +30,27 @@
             padding: 3px;
         }
 
+        .rtbLI .rtbButton .rtbArrow .radIcon.radIconDown::before {
+            font-family: "WebComponentsIcons";
+            content: '\e005';
+        }
+
+        .rtbLI .rtbButton.clicked .rtbArrow .radIcon.radIconDown::before {
+            font-family: "WebComponentsIcons";
+            content: '\e006';
+        }
+
         .roundedImage {
             border-radius: 50%
+        }
+
+        .rsbInput {
+            width: 100% !important;
+        }
+
+        .rsbInner {
+            margin-left: 10px;
+            margin-right: 10px;
         }
     </style>
     <telerik:RadStyleSheetManager ID="RadStyleSheetManager1" runat="server" />
@@ -45,11 +66,6 @@
         </telerik:RadScriptManager>
         <telerik:RadAjaxManager ID="RadAjaxManager1" runat="server">
             <AjaxSettings>
-                <telerik:AjaxSetting AjaxControlID="RadGrid1ToolBar">
-                    <UpdatedControls>
-                        <telerik:AjaxUpdatedControl ControlID="RadGrid1" />
-                    </UpdatedControls>
-                </telerik:AjaxSetting>
                 <telerik:AjaxSetting AjaxControlID="RadGrid1">
                     <UpdatedControls>
                         <telerik:AjaxUpdatedControl ControlID="GridMessageLabel"></telerik:AjaxUpdatedControl>
@@ -57,20 +73,68 @@
                     </UpdatedControls>
                 </telerik:AjaxSetting>
             </AjaxSettings>
+            <ClientEvents OnRequestStart="mngRequestStarted" />
+
         </telerik:RadAjaxManager>
         <telerik:RadAjaxLoadingPanel ID="RadAjaxLoadingPanel1" InitialDelayTime="700" runat="server" />
         <telerik:RadLabel runat="server" ForeColor="Green" ID="GridMessageLabel"></telerik:RadLabel>
-        <telerik:RadGrid ID="RadGrid1" runat="server" OnInsertCommand="RadGrid1_InsertCommand" OnUpdateCommand="RadGrid1_UpdateCommand" OnItemCommand="RadGrid1_ItemCommand" OnDeleteCommand="RadGrid1_DeleteCommand"
-            AllowPaging="True" DataSourceID="DataSource1" OnItemUpdated="RadGrid1_ItemUpdated" OnItemDeleted="RadGrid1_ItemDeleted"
-            OnItemInserted="RadGrid1_ItemInserted" OnDataBound="RadGrid1_DataBound" AutoGenerateColumns="False" CellSpacing="-1" GridLines="Both" ShowStatusBar="True"
-            OnItemDataBound="RadGrid1_ItemDataBound" OnItemCreated="RadGrid1_ItemCreated">
+        <telerik:RadGrid ID="RadGrid1" runat="server"
+            OnInsertCommand="RadGrid1_InsertCommand"
+            OnUpdateCommand="RadGrid1_UpdateCommand"
+            OnItemCommand="RadGrid1_ItemCommand"
+            AllowPaging="True"
+            OnItemUpdated="RadGrid1_ItemUpdated"
+            OnItemInserted="RadGrid1_ItemInserted"
+            OnDataBound="RadGrid1_DataBound"
+            AutoGenerateColumns="False"
+            CellSpacing="-1"
+            GridLines="Both"
+            ShowStatusBar="True"
+            Font-Size="Small"
+            OnItemDataBound="RadGrid1_ItemDataBound"
+            OnItemCreated="RadGrid1_ItemCreated"
+            OnNeedDataSource="RadGrid1_NeedDataSource"
+            OnDeleteCommand="RadGrid1_DeleteCommand"
+            OnItemDeleted="RadGrid1_ItemDeleted"
+            OnHTMLExporting="RadGrid1_HTMLExporting"
+            OnGridExporting="RadGrid1_GridExporting"
+            OnExportCellFormatting="RadGrid1_ExportCellFormatting" >
             <PagerStyle Mode="NextPrevAndNumeric" />
             <GroupingSettings CollapseAllTooltip="Collapse all groups" />
-            <MasterTableView CommandItemDisplay="Top" DataKeyNames="BiodataID" DataSourceID="DataSource1" EditMode="PopUp" HorizontalAlign="NotSet" Width="100%" AllowAutomaticInserts="False" AllowAutomaticUpdates="False">
+            <MasterTableView CommandItemDisplay="Top" DataKeyNames="BiodataID" EditMode="PopUp" HorizontalAlign="NotSet" Width="100%" AllowAutomaticInserts="False" AllowAutomaticUpdates="False" AllowAutomaticDeletes="False">
                 <CommandItemSettings />
                 <CommandItemTemplate>
-                    <telerik:RadToolBar ID="RadGrid1ToolBar" runat="server" AutoPostBack="true" OnClientButtonClicked="RadGrid1ToolBar_ClientButtonClicked">
+                    <telerik:RadToolBar ID="RadGrid1ToolBar" ClientIDMode="Static" runat="server" AutoPostBack="true" Font-Bold="true" OnClientButtonClicked="RadGrid1ToolBar_ClientButtonClicked" OnClientDropDownClosing="ClientDropDownClosing" Font-Size="Medium">
                         <Items>
+                            <telerik:RadToolBarDropDown Text="Go To">
+                                <Buttons>
+                                    <telerik:RadToolBarButton ID="Patients" runat="server" CommandName="Patients" ImageUrl="~/images/patient.png" ImagePosition="Left" Text="Patients" Visible="false">
+                                    </telerik:RadToolBarButton>
+                                    <telerik:RadToolBarButton ID="Companies" runat="server" CommandName="Companies" ImageUrl="~/images/office-building.png" ImagePosition="Left" Text="Companies" Visible="false">
+                                    </telerik:RadToolBarButton>
+                                    <telerik:RadToolBarButton ID="PatientHistory" runat="server"
+                                        CommandName="PatientHistoryCommandName"
+                                        Text="Patient Billing History" ImageUrl="~/images/dollar_16.png" ImagePosition="Left">
+                                    </telerik:RadToolBarButton>
+                                    <telerik:RadToolBarButton ID="BillingHistory" runat="server" CommandName="BillingHistoryCommandName" ImageUrl="~/images/enterprise1.png" ImagePosition="Left" Text="Company Billing History">
+                                    </telerik:RadToolBarButton>
+                                    <telerik:RadToolBarButton ID="CompanyBills" runat="server" CommandName="CompanyBillsCommandName" ImageUrl="~/images/calendar.png" ImagePosition="Left" Text="Monthly Bills">
+                                    </telerik:RadToolBarButton>
+                                </Buttons>
+                            </telerik:RadToolBarDropDown>
+
+                            <telerik:RadToolBarButton IsSeparator="true"></telerik:RadToolBarButton>
+
+                            <telerik:RadToolBarDropDown ID="RadToolBarDropDown2" runat="server" Text="Export">
+                                <Buttons>
+                                    <telerik:RadToolBarButton ID="ExcelExportBtn" ClientIDMode="Static" runat="server" CommandName="ExportToExcelCommandName" ImageUrl="~/images/excel.png" Text="Excel" CheckOnClick="true">
+                                    </telerik:RadToolBarButton>
+                                    <telerik:RadToolBarButton ID="WordExportBtn" ClientIDMode="Static" runat="server" CommandName="ExportToWordCommandName" ImageUrl="~/images/word.png" Text="Word" CheckOnClick="true">
+                                    </telerik:RadToolBarButton>
+                                </Buttons>
+                            </telerik:RadToolBarDropDown>
+                            <telerik:RadToolBarButton IsSeparator="true"></telerik:RadToolBarButton>
+
                             <telerik:RadToolBarButton Text="Add new patient"
                                 ImageUrl="images/plus.png" CommandName="InitInsert"
                                 ImagePosition="Left">
@@ -79,7 +143,7 @@
                             </telerik:RadToolBarButton>
                             <telerik:RadToolBarButton Text="Refresh" CommandName="RebindGrid" ImageUrl="images/refresh.png" ImagePosition="Left">
                             </telerik:RadToolBarButton>
-                            <telerik:RadToolBarButton Text="Clear Filter" CommandName="ClearFilter" ImageUrl="images/filter_l.png" ImagePosition="Left" Visible="<%# IsGridFiltered  %>">
+                            <telerik:RadToolBarButton Text="Clear Filter" CommandName="ClearFilter" ImageUrl="images/filter_l.png" ImagePosition="Left" Visible='<%# GridFiltered.Value != "0"  %>'>
                             </telerik:RadToolBarButton>
                             <telerik:RadToolBarButton OuterCssClass="rightButton" runat="server" Text="SearchBox">
                                 <ItemTemplate>
@@ -88,7 +152,7 @@
                                         DataKeyNames="BiodataID, FullName"
                                         DataTextField="FullName"
                                         DataValueField="BiodataID"
-                                        EnableAutoComplete="true" 
+                                        EnableAutoComplete="true"
                                         ShowSearchButton="true"
                                         MaxResultCount="15"
                                         Width="370" EnableViewState="true"
@@ -124,19 +188,44 @@
                     </telerik:RadToolBar>
                 </CommandItemTemplate>
                 <Columns>
-                    <telerik:GridEditCommandColumn ButtonType="ImageButton" UniqueName="EditCommandColumn" EditImageUrl="images/edit.png">
+                    <telerik:GridTemplateColumn 
+                        ItemStyle-HorizontalAlign="Center" 
+                        ItemStyle-Width="70"
+                        Exportable="false" >
+                        <ItemTemplate>
+                            <div style="display: flex; width: 100%; justify-content: space-around">
+                                <span style="padding-top: 2px">
+                                    <telerik:RadImageButton runat="server"
+                                        Image-Url="~/images/edit.png"
+                                        CommandName="Edit" ToolTip="Edit" Height="24px" Width="24px">
+                                    </telerik:RadImageButton>
+                                </span>
+
+                                <telerik:RadImageButton runat="server"
+                                    Image-Url="~/images/dollar.png"
+                                    CommandName="BillingHistory" ToolTip="Patient Billing History" Height="24px" Width="24px">
+                                </telerik:RadImageButton>
+                            </div>
+                        </ItemTemplate>
+                    </telerik:GridTemplateColumn>
+                    <%--<telerik:GridEditCommandColumn ButtonType="ImageButton" UniqueName="EditCommandColumn" EditImageUrl="images/edit.png" Exportable="false">
                         <ItemStyle CssClass="MyImageButton" />
                     </telerik:GridEditCommandColumn>
-                    <telerik:GridButtonColumn ConfirmText="Delete this record?" ConfirmDialogType="RadWindow"
+                    <telerik:GridButtonColumn ConfirmText="Delete this record?" ConfirmDialogType="RadWindow" Exportable="false"
                         ConfirmTitle="Delete" ButtonType="ImageButton" CommandName="Delete" Text="Delete" ImageUrl="images/delete.png"
-                        UniqueName="DeleteColumn">
+                        UniqueName="DeleteColumn" Visible="false">
                         <ItemStyle HorizontalAlign="Center" CssClass="MyImageButton" />
                     </telerik:GridButtonColumn>
+                    <telerik:GridButtonColumn Exportable="false"
+                        ButtonType="ImageButton" CommandName="BillingHistory" Text="Billing History" ImageUrl="images/money.png"
+                        UniqueName="BillingHistoryColumn">
+                        <ItemStyle HorizontalAlign="Center" CssClass="MyImageButton" />
+                    </telerik:GridButtonColumn>--%>
                     <telerik:GridBoundColumn DataField="BiodataID" DataType="System.Int32" FilterControlAltText="Filter BiodataID column" HeaderText="BiodataID" ReadOnly="True" SortExpression="BiodataID" UniqueName="BiodataID" Visible="False">
                     </telerik:GridBoundColumn>
-                    <telerik:GridTemplateColumn UniqueName="PhotoColumn" HeaderText="Photo">
+                    <telerik:GridTemplateColumn UniqueName="PhotoColumn" HeaderText="Photo" Exportable="false">
                         <ItemTemplate>
-                            <telerik:RadBinaryImage runat="server" DataField="Photo" FilterControlAltText="Filter column column" HeaderText="Photo" Width="32" Height="32" DataValue='<%#Eval("Photo")  is DBNull ? ImageConverter.fromFile(Server.MapPath( "images/profile.png")) : Eval("Photo") %>'
+                            <telerik:RadBinaryImage runat="server" DataField="Photo" FilterControlAltText="Filter column column" HeaderText="Photo" CssClass="roundedImage" Width="32" Height="32" DataValue='<%#Eval("Photo")  is DBNull ? ImageConverter.fromFile(Server.MapPath( "images/profile.png")) : Eval("Photo") %>'
                                 AutoAdjustImageControlSize="false" ToolTip='<%#Eval("FullName", "Photo of {0}") %>'
                                 AlternateText='<%#Eval("FullName", "Photo of {0}") %>' UniqueName="Photo" ResizeMode="Fit" DataAlternateTextFormatString="Photo of {0}"></telerik:RadBinaryImage>
                         </ItemTemplate>
@@ -183,6 +272,23 @@
             <ClientSettings>
                 <Selecting AllowRowSelect="True" EnableDragToSelectRows="True" />
             </ClientSettings>
+            <ExportSettings
+                HideStructureColumns="true"
+                ExportOnlyData="true"
+                IgnorePaging="false"
+                OpenInNewWindow="true"
+                Word-Format="Html"
+                FileName="Patients">
+                <Pdf
+                    PageTitle="Patients"
+                    Author="HMS User"
+                    PaperSize="A4"
+                    Creator="HMS"
+                    PageWidth="11in" PageHeight="8.5in">
+                </Pdf>
+
+                <Excel WorksheetName="Patients" FileExtension="xls" Format="Html"></Excel>
+            </ExportSettings>
         </telerik:RadGrid>
 
         <telerik:RadWindowManager ID="RadWindowManager1" runat="server"></telerik:RadWindowManager>
@@ -201,14 +307,15 @@
         </asp:SqlDataSource>
         <asp:SqlDataSource ID="CompanyDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:HMDB.connectionString  %>" ProviderName="System.Data.SqlClient"></asp:SqlDataSource>
         <asp:SqlDataSource runat="server" ID="AllPatientsDataSource" ConnectionString="<%$ ConnectionStrings:HMDB.connectionString %>" ProviderName="System.Data.SqlClient"></asp:SqlDataSource>
-        <asp:HiddenField runat="server" ID="GridFiltered" Value="0"/>
+        <asp:HiddenField runat="server" ID="GridFiltered" Value="0" />
         <asp:HiddenField runat="server" ID="SBInputValue" />
         <telerik:RadCodeBlock ID="RadCodeBlock1" runat="server">
             <script type="text/javascript">
                 var gridFiltered;
                 var sbInputValue;
                 var radSearchBox1; // Patients filter box
-
+                var radGrid1ToolBar;
+                var radGrid1;
                 //On insert and update buttons click temporarily disables ajax to perform upload actions      
                 //function conditionalPostback(e, sender) {
                 //    var theRegexp = new RegExp("\.UpdateButton$|\.PerformInsertButton$", "ig");
@@ -231,7 +338,14 @@
                         if (gridFiltered.val() == "1" && sbInputValue.val()) {
                             sbInputElem.val(sbInputValue.val());
                         }
-                    })
+                    });
+                    // Add click event to RadToolBar1 dropdown buttons (.rtbButton)
+                    $telerik.$("#RadGrid1ToolBar .rtbLI .rtbButton")
+                        .on("click", function (e) {
+                            $(e.currentTarget).toggleClass("clicked");
+                        });
+                    radGrid1 = $find('<%=RadGrid1.ClientID%>');
+                    radGrid1ToolBar = $telerik.findControl(document, "RadGrid1ToolBar");
                 }
 
                 function validateRadUpload(source, e) {
@@ -247,32 +361,32 @@
                 }
 
                 function addRecordToGrid() {
-                    var grid = $find('<%=RadGrid1.ClientID%>');
-                    grid.get_batchEditingManager().addNewRecord(grid.get_masterTableView());
+                    radGrid1.get_batchEditingManager().addNewRecord(radGrid1.get_masterTableView());
                     return false;
                 }
                 function saveChangesToGrid() {
-                    var grid = $find('<%=RadGrid1.ClientID%>');
-                    grid.get_batchEditingManager().saveChanges(grid.get_masterTableView());
+                    radGrid1.get_batchEditingManager().saveChanges(radGrid1.get_masterTableView());
                     return false;
                 }
                 function cancelChangesToGrid() {
-                    var grid = $find('<%=RadGrid1.ClientID%>');
-                    grid.get_batchEditingManager().cancelChanges(grid.get_masterTableView());
+                    radGrid1.get_batchEditingManager().cancelChanges(radGrid1.get_masterTableView());
                     return false;
                 }
                 function refreshGrid() {
-                    var grid = $.find('#<%=RadGrid1.ClientID%>');
-                    grid.get_masterTableView().rebind();
+                    radGrid1.get_masterTableView().rebind();
                 }
 
                 function RadSearchBox1_ClientSearch(sender, args) {
-                    gridFiltered.val("1");
-                    sbInputValue.val(args.get_text());
+                    var text = args.get_text();
+                    if (text) {
+                        gridFiltered.val("1");
+                        sbInputValue.val(args.get_text());
+                    }
                 }
 
                 function RadSearchBox1_ButtonCommand(sender, args) {
-                    if (args.get_commandName() == "ClearFilter") {
+                    var commandName = args.get_commandName();
+                    if (commandName == "ClearFilter") {
                         gridFiltered.val("0");
                         sbInputValue.val("");
                     }
@@ -288,8 +402,30 @@
                 function RadGrid1ToolBar_ClientButtonClicked(sender, args) {
                     var commandName = args.get_item().get_commandName();
                     if (commandName == "ClearFilter") {
-                        //args.get_item().set_visible(false)
                         radSearchBox1.get_buttons().getButton(0).get_element().click()
+                    }
+                    //else if (commandName == "RebindGrid") {
+                    //    refreshGrid()
+                    //} else if (commandName == "InitInsert") {
+                    //    addRecordToGrid()
+                    //}
+                }
+
+                function ClientDropDownClosing(sender, args) {
+                    var dropDownElement = $(args.get_item()._element)
+                    // Toggle clicked for all drop down buttons
+                    dropDownElement.find(".rtbButton").removeClass("clicked");
+                }
+
+                function mngRequestStarted(ajaxManager, eventArgs) {
+                    if (eventArgs.EventTarget.includes(radGrid1ToolBar.get_id())) {
+                        var excelExportBtn = radGrid1ToolBar.findButtonByCommandName("ExportToExcelCommandName");
+                        var wordExportBtn = radGrid1ToolBar.findButtonByCommandName("ExportToWordCommandName");
+                        if (excelExportBtn.get_checked() || wordExportBtn.get_checked()) {
+                            excelExportBtn.set_checked(false);
+                            wordExportBtn.set_checked(false);
+                            eventArgs.EnableAjax = false;
+                        }
                     }
                 }
             </script>

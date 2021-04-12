@@ -76,6 +76,24 @@ public partial class BillingHistory
     protected global::Telerik.Web.UI.RadToolBar RadToolBar1;
 
     /// <summary>
+    /// Patients control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::Telerik.Web.UI.RadToolBarButton Patients;
+
+    /// <summary>
+    /// Companies control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::Telerik.Web.UI.RadToolBarButton Companies;
+
+    /// <summary>
     /// PatientHistory control.
     /// </summary>
     /// <remarks>
@@ -85,15 +103,6 @@ public partial class BillingHistory
     protected global::Telerik.Web.UI.RadToolBarButton PatientHistory;
 
     /// <summary>
-    /// CompanyBills control.
-    /// </summary>
-    /// <remarks>
-    /// Auto-generated field.
-    /// To modify move field declaration from designer file to code-behind file.
-    /// </remarks>
-    protected global::Telerik.Web.UI.RadToolBarButton CompanyBills;
-
-    /// <summary>
     /// BillingHis control.
     /// </summary>
     /// <remarks>
@@ -101,6 +110,15 @@ public partial class BillingHistory
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
     protected global::Telerik.Web.UI.RadToolBarButton BillingHis;
+
+    /// <summary>
+    /// CompanyBills control.
+    /// </summary>
+    /// <remarks>
+    /// Auto-generated field.
+    /// To modify move field declaration from designer file to code-behind file.
+    /// </remarks>
+    protected global::Telerik.Web.UI.RadToolBarButton CompanyBills;
 
     /// <summary>
     /// i2 control.

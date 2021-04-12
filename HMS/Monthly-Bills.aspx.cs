@@ -45,6 +45,7 @@ public partial class Monthly_Bills : System.Web.UI.Page
             }
         }
         RadGrid1.MasterTableView.Caption = String.Format("<h3>Montly Bills for {0}</h3>", Year);
+        RadGrid1.ExportSettings.FileName = "Monthly Bills - " + Year.ToString();
     }
 
     protected void Page_Init(object sender, EventArgs e)
@@ -187,6 +188,12 @@ public partial class Monthly_Bills : System.Web.UI.Page
 
         if ((e.Item as RadToolBarButton).CommandName.ToString() == "CompanyBillsCommandName")
             RadAjaxManager1.Redirect(urlAuthority + "/Monthly-Bills.aspx");
+
+        if ((e.Item as RadToolBarButton).CommandName.ToString() == "Patients")
+            RadAjaxManager1.Redirect(urlAuthority + "/Patients.aspx");
+
+        if ((e.Item as RadToolBarButton).CommandName.ToString() == "Companies")
+            RadAjaxManager1.Redirect(urlAuthority + "/Companies.aspx");
     }
 
     protected void RadMonthYearPicker1_SelectedDateChanged(object sender, Telerik.Web.UI.Calendar.SelectedDateChangedEventArgs e)
@@ -238,15 +245,32 @@ public partial class Monthly_Bills : System.Web.UI.Page
 
     protected void RadGrid1_ItemDataBound(object sender, GridItemEventArgs e)
     {
-        if (e.Item.ItemType == GridItemType.Item || e.Item.ItemType == GridItemType.AlternatingItem)
+        //if (e.Item.ItemType == GridItemType.Item || e.Item.ItemType == GridItemType.AlternatingItem)
+        //{
+        //    var item = e.Item.DataItem as DataRowView;
+        //    var company = item.Row["Company"].ToString();
+        //    var urlAuthority = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)
+        //     + "/BillingHistory.aspx?targetCompany=" + company;
+        //    string lsTip = String.Format("Company: {0}<br><a href='{1}'>View Billing History</a>", company, urlAuthority);
+        //    e.Item.ToolTip = lsTip;//Its style will be style of the RadToolTipManager style.
+        //}
+    }
+
+    protected void RadGrid1_ItemCommand(object sender, GridCommandEventArgs e)
+    {
+        var urlAuthority = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority);
+
+        if (e.CommandName == "BillingHistory")
         {
-            var item = e.Item.DataItem as DataRowView;
-            var company = item.Row["Company"].ToString();
-            var urlAuthority = HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority)
-             + "/BillingHistory.aspx?targetCompany=" + company;
-            string lsTip = String.Format("Company: {0}<br><a href='{1}'>View Billing History</a>", company, urlAuthority);
-            e.Item.ToolTip = lsTip;//Its style will be style of the RadToolTipManager style.
+            GridDataItem item = e.Item as GridDataItem;
+            var company = item.OwnerTableView.DataKeyValues[item.ItemIndex]["Company"].ToString();
+            RadAjaxManager1.Redirect(urlAuthority + string.Format("/BillingHistory.aspx?tc={0}", company));
         }
+    }
+
+    protected void RadGrid1_ItemCreated(object sender, GridItemEventArgs e)
+    {
+        
     }
 }
 

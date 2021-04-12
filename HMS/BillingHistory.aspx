@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-        <link rel="shortcut icon" type="image/x-icon" href="images/patient.png" />
+    <link rel="shortcut icon" type="image/x-icon" href="images/enterprise1.png" />
     <title>Company Billing History</title>
     <telerik:RadStyleSheetManager ID="RadStyleSheetManager1" runat="server" />
     <script src="https://kit.fontawesome.com/013c8b2550.js" crossorigin="anonymous"></script>
@@ -112,13 +112,17 @@
             <Items>
                 <telerik:RadToolBarDropDown Text="Go To">
                     <Buttons>
+                        <telerik:RadToolBarButton ID="Patients" runat="server" CommandName="Patients" ImageUrl="~/images/patient.png" ImagePosition="Left" Text="Patients">
+                        </telerik:RadToolBarButton>
+                        <telerik:RadToolBarButton ID="Companies" runat="server" CommandName="Companies" ImageUrl="~/images/office-building.png" ImagePosition="Left" Text="Companies" Visible="false">
+                        </telerik:RadToolBarButton>
                         <telerik:RadToolBarButton ID="PatientHistory" runat="server"
                             CommandName="PatientHistoryCommandName"
-                            Text="Patient Billing History" ImageUrl="~/images/patient.png" ImagePosition="Left">
-                        </telerik:RadToolBarButton>
-                        <telerik:RadToolBarButton ID="CompanyBills" runat="server" CommandName="CompanyBillsCommandName" ImageUrl="~/images/calendar.png" ImagePosition="Left" Text="Monthly Bills">
+                            Text="Patient Billing History" ImageUrl="~/images/dollar_16.png" ImagePosition="Left">
                         </telerik:RadToolBarButton>
                         <telerik:RadToolBarButton ID="BillingHis" runat="server" CommandName="BillingHistoryCommandName" ImageUrl="~/images/enterprise1.png" ImagePosition="Left" Text="Company Billing History" Visible="false">
+                        </telerik:RadToolBarButton>
+                        <telerik:RadToolBarButton ID="CompanyBills" runat="server" CommandName="CompanyBillsCommandName" ImageUrl="~/images/calendar.png" ImagePosition="Left" Text="Monthly Bills">
                         </telerik:RadToolBarButton>
                     </Buttons>
                 </telerik:RadToolBarDropDown>
@@ -134,7 +138,7 @@
                 </telerik:RadToolBarDropDown>
                 <telerik:RadToolBarButton IsSeparator="true"></telerik:RadToolBarButton>
 
-                  <telerik:RadToolBarButton>
+                <telerik:RadToolBarButton>
                     <ItemTemplate>
                         <span style="margin-right: 15px"></span>
                     </ItemTemplate>
@@ -144,14 +148,24 @@
                     <ItemTemplate>
                         <span style="margin-left: 15px"></span>
 
-                        <telerik:RadLabel runat="server" Text="Select company: " Font-Italic="true" Font-Bold="true" Font-Size="Medium">
+                        <telerik:RadLabel runat="server" Text="Select company: " 
+                            Font-Italic="true" 
+                            Font-Bold="true" 
+                            Font-Size="Medium">
                         </telerik:RadLabel>
 
-                        <telerik:RadDropDownList runat="server" ID="RadDropDownList1" DataTextField="Company" DataValueField="Company" DropDownWidth="300px" OnItemSelected="RadDropDownList1_ItemSelected" AutoPostBack="true" ToolTip="" OnClientItemSelected="radDropDownList1_ClientItemSelected"></telerik:RadDropDownList>
+                        <telerik:RadDropDownList runat="server" 
+                            ID="RadDropDownList1" DataTextField="Company" 
+                            DataValueField="Company" 
+                            DropDownWidth="300px" 
+                            OnItemSelected="RadDropDownList1_ItemSelected" 
+                            AutoPostBack="true" ToolTip="" 
+                            OnClientItemSelected="radDropDownList1_ClientItemSelected"
+                            DropDownHeight="500"></telerik:RadDropDownList>
                     </ItemTemplate>
                 </telerik:RadToolBarButton>
                 <telerik:RadToolBarButton IsSeparator="true"></telerik:RadToolBarButton>
-                  <telerik:RadToolBarButton>
+                <telerik:RadToolBarButton>
                     <ItemTemplate>
                         <span style="margin-right: 15px"></span>
                     </ItemTemplate>
@@ -159,7 +173,7 @@
                 <telerik:RadToolBarButton ID="PeriodSelector" runat="server" Text="PeriodSelector">
                     <ItemTemplate>
                         <span style="margin-left: 15px"></span>
-                        
+
                         <telerik:RadDatePicker ID="FromDatePicker" runat="server" DateInput-Label="From" Width="50%" ShowPopupOnFocus="true" EnableScreenBoundaryDetection="false" EnableShadows="true" DateInput-OnClientDateChanged="fromDateSelected" AutoPostBack="false" DateInput-DisplayDateFormat="dd/MM/yyyy" DateInput-DateFormat="dd/MM/yyyy" ToolTip="" Calendar-FastNavigationNextToolTip="" Calendar-FastNavigationPrevToolTip="" Calendar-NavigationNextToolTip="" Calendar-NavigationPrevToolTip="" Calendar-ShowDayCellToolTips="false" DatePopupButton-ToolTip=""></telerik:RadDatePicker>
 
                         <telerik:RadDatePicker ID="ToDatePicker" AutoPostBack="true" runat="server" DateInput-DisplayDateFormat="dd/MM/yyyy" DateInput-Label="To" DateInput-DateFormat="dd/MM/yyyy" ShowPopupOnFocus="true" ToolTip="" Calendar-FastNavigationNextToolTip="" Calendar-FastNavigationPrevToolTip="" Calendar-NavigationNextToolTip="" Calendar-NavigationPrevToolTip="" Calendar-ShowDayCellToolTips="false" DatePopupButton-ToolTip=""></telerik:RadDatePicker>
@@ -172,7 +186,9 @@
         <div class="scroller">
             <div class="gridWrapper">
                 <div>
-                    <telerik:RadGrid ID="RadGrid1" runat="server" AllowSorting="True" AutoGenerateColumns="False" AllowFilteringByColumn="True" RenderMode="Lightweight" ShowGroupPanel="True" ShowStatusBar="True" OnGridExporting="RadGrid1_GridExporting" OnHTMLExporting="RadGrid1_HTMLExporting" OnExportCellFormatting="RadGrid1_ExportCellFormatting" OnFilterCheckListItemsRequested="RadGrid1_FilterCheckListItemsRequested" OnPreRender="RadGrid1_PreRender" OnItemDataBound="RadGrid1_ItemDataBound"
+                    <telerik:RadGrid ID="RadGrid1" runat="server" AllowSorting="True" AutoGenerateColumns="False" AllowFilteringByColumn="True" RenderMode="Lightweight" ShowGroupPanel="True" ShowStatusBar="True" OnGridExporting="RadGrid1_GridExporting" OnHTMLExporting="RadGrid1_HTMLExporting" OnExportCellFormatting="RadGrid1_ExportCellFormatting"
+                      OnFilterCheckListItemsRequested="RadGrid1_FilterCheckListItemsRequested" Height="620px"
+                        OnPreRender="RadGrid1_PreRender" OnItemDataBound="RadGrid1_ItemDataBound"
                         AllowPaging="False" GridLines="Both" ShowFooter="True" FilterType="Combined"
                         PageSize="50" OnNeedDataSource="RadGrid1_NeedDataSource" MasterTableView-Caption="<h3>Billing History </h3>" Font-Size="Small" PagerStyle-Mode="NextPrevAndNumeric" PagerStyle-PageSizeControlType="RadComboBox" GroupingSettings-CaseSensitive="False" MasterTableView-ShowGroupFooter="true" OnItemCreated="RadGrid1_ItemCreated">
                         <ClientSettings Resizing-AllowColumnResize="true" AllowDragToGroup="true" AllowExpandCollapse="true" Selecting-AllowRowSelect="true" ClientEvents-OnGroupCollapsed="groupCollapsed" ClientEvents-OnGroupExpanded="groupExpanded">
@@ -184,16 +200,26 @@
                         <MasterTableView Width="100%" AllowMultiColumnSorting="true" TableLayout="Fixed" CommandItemDisplay="Top" GroupsDefaultExpanded="true" GroupLoadMode="Client" GroupHeaderItemStyle-Font-Bold="true" FooterStyle-Font-Bold="true" EnableHeaderContextMenu="true">
                             <CommandItemTemplate>
                                 <div id="CommandItemsWrapper" style="float: right">
-                                    <telerik:RadSearchBox RenderMode="Lightweight" runat="server" ID="RadSearchBox2" EmptyMessage="Filter by patient"
+                                    <telerik:RadSearchBox RenderMode="Lightweight" 
+                                        runat="server" 
+                                        ID="RadSearchBox2" 
+                                        EmptyMessage="Filter by patient"
                                         Filter="Contains"
                                         DataKeyNames="BiodataID"
                                         DataTextField="FullName"
                                         DataValueField="BiodataID"
                                         EnableAutoComplete="true"
                                         ShowSearchButton="true"
-                                        Width="300" EnableViewState="true"
-                                        OnSearch="RadSearchBox2_Search" OnButtonCommand="RadSearchBox2_ButtonCommand" OnClientSearch="radSearchBox2_ClientSearch" OnClientButtonCommand="radSearchBox2_ClientButtonCommand">
-                                        <DropDownSettings Width="300" />
+                                        Width="300" 
+                                        EnableViewState="true"
+                                        OnSearch="RadSearchBox2_Search" 
+                                        OnButtonCommand="RadSearchBox2_ButtonCommand" 
+                                        OnClientSearch="radSearchBox2_ClientSearch"
+                                        OnClientButtonCommand="radSearchBox2_ClientButtonCommand"
+                                        MaxResultCount="50" 
+                                        HighlightFirstMatch="true" >
+                                        <DropDownSettings Width="300" 
+                                            Height="400" />
                                         <Buttons>
                                             <telerik:SearchBoxButton CommandName="ClearFilter" CommandArgument="ClearFilter" Position="Left" AlternateText="Clear Filter" ImageUrl="images/filter.png" />
                                         </Buttons>
@@ -208,7 +234,7 @@
                                     ReadOnly="True" FilterCheckListEnableLoadOnDemand="true" FilterControlAltText="Filter by Patient" SortExpression="FullName" AutoPostBackOnFilter="true" FooterAggregateFormatString="{0}" Aggregate="CountDistinct" CurrentFilterFunction="Contains"
                                     DataType="System.String" AllowFiltering="false">
                                 </telerik:GridBoundColumn>
-                                <telerik:GridBoundColumn DataField="Company" Display="false" HeaderText="Company"></telerik:GridBoundColumn>
+                                <%--<telerik:GridBoundColumn DataField="Company" Exportable="false" Visible="false" HeaderText="Company"></telerik:GridBoundColumn>--%>
                                 <telerik:GridDateTimeColumn DataField="Date" DataFormatString="{0:MMM dd, yyy}" AllowFiltering="false" CurrentFilterFunction="EqualTo" HeaderText="Date"></telerik:GridDateTimeColumn>
                                 <telerik:GridBoundColumn DataField="ServiceName" HeaderText="Service/Product" AllowFiltering="false" Aggregate="Count" FooterAggregateFormatString="<b>Total Transactions: {0:n0}</b>"></telerik:GridBoundColumn>
                                 <telerik:GridNumericColumn DataField="PackQuantity" FooterStyle-Font-Bold="true" ReadOnly="true" HeaderText="Pack" AllowFiltering="false" Aggregate="Sum" FooterAggregateFormatString="<b>Total Packs: {0:n0}</b>">
@@ -234,7 +260,7 @@
                         </FilterMenu>
                         <ExportSettings
                             HideStructureColumns="true"
-                            ExportOnlyData="false"
+                            ExportOnlyData="true"
                             IgnorePaging="true"
                             OpenInNewWindow="true" Word-Format="Html" FileName="Billing History" Excel-WorksheetName="Billing History" Excel-FileExtension="xls" Excel-Format="Html">
                             <Pdf

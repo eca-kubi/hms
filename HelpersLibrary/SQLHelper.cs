@@ -42,7 +42,7 @@ namespace HelpersLibrary
 
         public static DataTable GetAllPatients()
         {
-            string query = GetQueryString("all_patients.sql");
+            string query = GetQueryString("all_patients_biodata.sql");
             String connectionString = ConfigurationManager.ConnectionStrings["HMDB"].ConnectionString;
             SqlConnection connection = new SqlConnection(connectionString);
             using (SqlDataAdapter adapter = new SqlDataAdapter())
@@ -77,6 +77,31 @@ namespace HelpersLibrary
             {
                 adapter.SelectCommand = new SqlCommand(query, connection);
                 adapter.SelectCommand.Parameters.AddWithValue("@biodata_id", boidataID);
+
+                DataTable myDataTable = new DataTable();
+
+                connection.Open();
+                try
+                {
+                    adapter.Fill(myDataTable);
+                }
+                finally
+                {
+                    connection.Close();
+                }
+                return myDataTable;
+            }
+        }
+
+        public static DataTable GetPatientBiodataByFullName(string fullName)
+        {
+            string query = GetQueryString("patient_biodata_filter_by_fullname.sql");
+            string connectionString = ConfigurationManager.ConnectionStrings["HMDB"].ConnectionString;
+            SqlConnection connection = new SqlConnection(connectionString);
+            using (SqlDataAdapter adapter = new SqlDataAdapter())
+            {
+                adapter.SelectCommand = new SqlCommand(query, connection);
+                adapter.SelectCommand.Parameters.AddWithValue("@FullName", fullName);
 
                 DataTable myDataTable = new DataTable();
 

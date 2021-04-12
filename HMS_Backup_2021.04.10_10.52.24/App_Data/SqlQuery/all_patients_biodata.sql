@@ -1,0 +1,1 @@
+﻿SELECT BiodataID, PatientID, Trim(dbo.fnToProperCase(FullName)) AS FullName, OtherNames, Surname, (0+ FORMAT(GETDATE(),'yyyyMMdd') - FORMAT(BirthDate,'yyyyMMdd') ) /10000 Age, BirthDate, Gender, Photo, PhoneOne, TRIM(UPPER(Company)) Company FROM PatientBiodatas WHERE (FullName NOT LIKE  '%[[]new]%') AND (FullName <> '') ORDER BY FullName
